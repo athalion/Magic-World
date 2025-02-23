@@ -6,6 +6,7 @@ import de.athalion.game.twodgame.entity.Projectile;
 import de.athalion.game.twodgame.graphics.EnvironmentEffects;
 import de.athalion.game.twodgame.graphics.ui.UI;
 import de.athalion.game.twodgame.input.KeyHandler;
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.schedule.Scheduler;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.CollisionChecker;
@@ -88,14 +89,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() {
-
         gameState = GameState.LOGO;
 
         settings = Settings.loadSettings();
         setFullScreen(settings.fullscreen);
 
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
-
     }
 
     public void setFullScreen(boolean fullScreen) {
@@ -133,15 +132,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void startGameThread() {
-
         gameThread = new Thread(this);
         gameThread.start();
-
     }
 
     @Override
     public void run() {
-
         double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -151,7 +147,6 @@ public class GamePanel extends JPanel implements Runnable {
         int drawCount = 0;
 
         while (gameThread != null) {
-
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
@@ -165,21 +160,17 @@ public class GamePanel extends JPanel implements Runnable {
                 }
 
                 update();
-
                 drawScreen();
 
                 delta--;
                 drawCount++;
-
             }
 
             if (timer >= 1000000000) {
                 drawCount = 0;
                 timer = 0;
             }
-
         }
-
     }
 
     public void update() {
@@ -350,7 +341,8 @@ public class GamePanel extends JPanel implements Runnable {
             try {
                 UtilityTool.copyFolder(new File(getClass().getResource("/new_game/").toURI().getPath()), file);
             } catch (URISyntaxException e) {
-                UtilityTool.openErrorWindow(e);
+                Logger.error("Error while copying game files to new game " + name + ": " + e.getMessage());
+                Logger.stackTrace(e.getStackTrace());
             }
             loadGame(name);
         }
@@ -493,9 +485,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void quit() {
+        Logger.log("Exiting...");
         saveSettings();
         settings.enableController = false;
         keyHandler.quitGamepad();
+        Logger.saveLog();
         System.exit(0);
     }
 

@@ -2,7 +2,6 @@ package de.athalion.game.twodgame.utility;
 
 import de.athalion.game.twodgame.entity.Entity;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -93,14 +92,6 @@ public class UtilityTool {
                 }
             }
         }
-    }
-
-    public static void openErrorWindow(Exception e) {
-
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, e.getMessage(), e.getClass().toString(), JOptionPane.ERROR_MESSAGE);
-        System.exit(1);
-
     }
 
     public static boolean isIgnoredKey(KeyEvent e) {

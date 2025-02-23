@@ -1,7 +1,7 @@
 package de.athalion.game.twodgame.main;
 
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.sound.Sound;
-import de.athalion.game.twodgame.utility.UtilityTool;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 public class Main {
 
@@ -19,15 +20,19 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Logger.createSession();
+
         GamePanel gamePanel = new GamePanel();
         gamePanel.setupGame();
 
         URL img = null;
 
         try {
+            Logger.log("Loading logo...");
             img = new URL(Main.class.getResource("/menu/logo.gif").toString());
         } catch (MalformedURLException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error loading logo: " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
         ImageIcon icon = new ImageIcon(img);
 
@@ -40,9 +45,11 @@ public class Main {
 
         BufferedImage cursorImage = null;
         try {
-            cursorImage = ImageIO.read(Main.class.getResourceAsStream("/blank_cursor.png"));
+            Logger.log("Creating blank cursor...");
+            cursorImage = ImageIO.read(Objects.requireNonNull(Main.class.getResourceAsStream("/blank_cursor.png")));
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error loading blank cursor: " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
         blankCursor = window.getToolkit().createCustomCursor(cursorImage, new Point(), "blank");
 

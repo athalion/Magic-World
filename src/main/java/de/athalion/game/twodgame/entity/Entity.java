@@ -1,6 +1,7 @@
 package de.athalion.game.twodgame.entity;
 
 import de.athalion.game.twodgame.item.Item;
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.Direction;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Entity {
 
@@ -292,14 +294,14 @@ public class Entity {
     }
 
     public BufferedImage setup(String pathName, int width, int height) {
-
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(getClass().getResourceAsStream(pathName + ".png"));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(pathName + ".png")));
             image = UtilityTool.scaleImage(image, width, height);
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error while setting up image " + pathName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         return image;
