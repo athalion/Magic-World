@@ -1,6 +1,6 @@
 package de.athalion.game.twodgame.sound;
 
-import de.athalion.game.twodgame.utility.UtilityTool;
+import de.athalion.game.twodgame.logs.Logger;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -69,7 +69,8 @@ public class Sound {
             clip.open(ais);
             volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error reading sound file " + soundURL[i] + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
     }

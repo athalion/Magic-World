@@ -37,6 +37,7 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Settings and Saves ###
+### Runtime Files ###
 settings.json
 /saves/
+/logs/

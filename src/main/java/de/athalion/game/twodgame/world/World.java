@@ -13,10 +13,10 @@ import de.athalion.game.twodgame.event.EventDeserializer;
 import de.athalion.game.twodgame.event.EventHandler;
 import de.athalion.game.twodgame.event.EventSerializer;
 import de.athalion.game.twodgame.graphics.EnvironmentEffects;
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.particle.Particle;
 import de.athalion.game.twodgame.sound.Sound;
-import de.athalion.game.twodgame.utility.UtilityTool;
 
 import java.awt.*;
 import java.io.*;
@@ -84,6 +84,7 @@ public class World {
     }
 
     public void loadWorld(String mapDirPath) {
+        Logger.log("Preparing to load world " + mapName + "...");
 
         //PREPARE
         String mapPath = "/maps/" + Arrays.stream(mapDirPath.split("/")).toList().getLast() + ".txt";
@@ -97,6 +98,7 @@ public class World {
         BufferedReader mapReader = new BufferedReader(new InputStreamReader(mapInputStream));
 
         //READ ENTITY AND EVENT DATA
+        Logger.log("Loading entities and events...");
         try {
 
             File objectFile = new File(objectPath);
@@ -124,10 +126,12 @@ public class World {
             }
 
         } catch (FileNotFoundException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error loading entities and events for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         //READ MAP
+        Logger.log("Loading map...");
         try {
 
             mapName = mapReader.readLine();
@@ -172,14 +176,17 @@ public class World {
             }
 
             mapReader.close();
+            Logger.log("Done!");
 
         } catch (IOException | URISyntaxException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error loading map for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
     }
 
     public void saveWorld() {
+        Logger.log("Preparing to save world " + mapName + "...");
 
         File objectFile = new File(mapDirPath, "/objects.json");
         File monsterFile = new File(mapDirPath, "/monsters.json");
@@ -195,31 +202,38 @@ public class World {
             if (!NPCFile.exists()) NPCFile.createNewFile();
             if (!eventFile.exists()) eventFile.createNewFile();
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error creating save files for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
         try (Writer writer = new FileWriter(objectFile)) {
             writer.write(gson.toJson(EntitySerializer.serialize(objectList)));
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error saving objects for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         try (Writer writer = new FileWriter(monsterFile)) {
             writer.write(gson.toJson(EntitySerializer.serialize(monsterList)));
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error saving monsters for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         try (Writer writer = new FileWriter(NPCFile)) {
             writer.write(gson.toJson(EntitySerializer.serialize(NPCList)));
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error saving NPCs for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         try (Writer writer = new FileWriter(eventFile)) {
             writer.write(gson.toJson(EventSerializer.serialize(eventHandler.getEvents())));
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error saving events for world " + mapName + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
+
+        Logger.log("Done!");
 
     }
 

@@ -2,13 +2,13 @@ package de.athalion.game.twodgame.graphics.ui;
 
 import de.athalion.game.twodgame.entity.Entity;
 import de.athalion.game.twodgame.graphics.CutSceneManager;
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.menu.MenuManager;
 import de.athalion.game.twodgame.object.OBJ_Heart;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.RenderUtils;
-import de.athalion.game.twodgame.utility.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -59,14 +59,18 @@ public class UI {
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
+        Logger.log("Initializing UI...");
+
         menuManager = new MenuManager(gamePanel);
         cutSceneManager = new CutSceneManager(gamePanel, this);
 
         try {
+            Logger.log("Loading Font...");
             InputStream is = getClass().getResourceAsStream("/font/atlantis.ttf");
             atlantis = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error reading custom font: " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         //create hud object
@@ -125,9 +129,7 @@ public class UI {
     }
 
     private void drawCutScene() {
-
         cutSceneManager.playCutScene(cutSceneIndex, g2);
-
     }
 
     private void drawPlayerLife() {
@@ -193,7 +195,6 @@ public class UI {
     }
 
     public void drawPauseScreen() {
-
         g2.setFont(atlantis);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 96F));
         g2.setColor(Color.WHITE);
@@ -203,7 +204,6 @@ public class UI {
         int y = gamePanel.screenHeight / 2 + gamePanel.tileSize * 2;
 
         g2.drawString(text, x, y);
-
     }
 
     public void drawDialog() {
@@ -555,21 +555,22 @@ public class UI {
     }
 
     public BufferedImage loadImage(String path) {
+        Logger.log("Loading image " + path);
 
         BufferedImage image = null;
         InputStream inputStream = getClass().getResourceAsStream(path + ".png");
 
         if (inputStream == null)
-            UtilityTool.openErrorWindow(new NullPointerException("Cannot load image because " + path + " is null!"));
+            Logger.error("Cannot load image because " + path + " is null!");
 
         try {
             image = ImageIO.read(inputStream);
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error reading texture " + path + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         return image;
-
     }
 
 }

@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.particle;
 
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.UtilityTool;
 
@@ -30,7 +31,8 @@ public class Particle {
                 images[i] = UtilityTool.scaleImage(image.getSubimage(0, image.getWidth() * i, image.getWidth(), image.getWidth()), image.getWidth() * 3, image.getWidth() * 3);
             }
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error reading texture " + texture + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         this.x = x;

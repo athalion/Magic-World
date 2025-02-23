@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.utility;
 
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -25,12 +26,13 @@ public class RenderUtils {
         InputStream inputStream = aClass.getResourceAsStream(path + ".png");
 
         if (inputStream == null)
-            UtilityTool.openErrorWindow(new NullPointerException("Cannot load image because InputStream (" + path + ") is null!"));
+            Logger.error("Cannot load image because " + path + " is null!");
 
         try {
             image = ImageIO.read(inputStream);
         } catch (IOException e) {
-            UtilityTool.openErrorWindow(e);
+            Logger.error("Error reading texture " + path + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
 
         return image;

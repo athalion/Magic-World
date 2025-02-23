@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.world;
 
+import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.UtilityTool;
 
@@ -57,7 +58,8 @@ public class TileManager {
                 }
                 tiles[index].collision = collision;
             } catch (IOException e) {
-                UtilityTool.openErrorWindow(e);
+                Logger.error("Error reading texture " + pathName + ": " + e.getMessage());
+                Logger.stackTrace(e.getStackTrace());
             }
         } else {
             try {
@@ -68,7 +70,8 @@ public class TileManager {
                 tiles[index].image[0] = UtilityTool.scaleImage(image, image.getWidth() * 3, image.getHeight() * 3);
                 tiles[index].collision = collision;
             } catch (IOException e) {
-                UtilityTool.openErrorWindow(e);
+                Logger.error("Error reading texture " + pathName + ": " + e.getMessage());
+                Logger.stackTrace(e.getStackTrace());
             }
         }
 
