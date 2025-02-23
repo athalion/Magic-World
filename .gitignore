@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Settings and Saves ###
+settings.json
+/saves/
