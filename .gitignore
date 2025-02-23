@@ -40,3 +40,4 @@ build/
 ### Settings and Saves ###
 settings.json
 /saves/
+/logs/
