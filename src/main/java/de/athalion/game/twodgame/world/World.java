@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class World {
 
@@ -95,7 +96,7 @@ public class World {
         String eventPath = mapDirPath + "/events.json";
 
         InputStream mapInputStream = getClass().getResourceAsStream(mapPath);
-        BufferedReader mapReader = new BufferedReader(new InputStreamReader(mapInputStream));
+        BufferedReader mapReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(mapInputStream)));
 
         //READ ENTITY AND EVENT DATA
         Logger.log("Loading entities and events...");
@@ -159,7 +160,7 @@ public class World {
                 String[] numbers = line.split(" ");
 
                 if (mapTileNumber == null) {
-                    Path path = Paths.get(getClass().getResource(mapPath).toURI());
+                    Path path = Paths.get(Objects.requireNonNull(getClass().getResource(mapPath)).toURI());
                     mapTileNumber = new int[numbers.length][Files.readAllLines(path).size() - 3];
                     maxWorldCol = numbers.length;
                     maxWorldRow = Files.readAllLines(path).size() - 3;

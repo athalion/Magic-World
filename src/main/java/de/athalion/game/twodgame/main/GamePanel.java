@@ -79,13 +79,11 @@ public class GamePanel extends JPanel implements Runnable {
     public GameState gameState;
 
     public GamePanel() {
-
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-
     }
 
     public void setupGame() {
@@ -180,7 +178,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState != GameState.LOGO && gameState != GameState.TITLE) {
             if (animationTimer >= 6) {
                 animationTimer = 0;
-                tileManager.updateAnimations();
+                tileManager.getTileSet().updateAnimations();
                 worldManager.getCurrentWorld().updateParticles();
             }
             animationTimer++;

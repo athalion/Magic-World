@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Entity {
+public abstract class Entity {
 
     GamePanel gamePanel;
 
@@ -37,19 +37,16 @@ public class Entity {
     public int worldX, worldY;
     public int speed;
 
-
     public int actionLockTimer;
     public int invincibleTimer;
     public int dyingTimer;
     public int hpBarTimer;
-
 
     public boolean invincible;
     public boolean attacking = false;
     public boolean alive = true;
     public boolean dying = false;
     public boolean hpBarOn = false;
-
 
     public String name;
     public String id;
