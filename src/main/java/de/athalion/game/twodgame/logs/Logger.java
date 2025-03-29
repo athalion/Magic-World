@@ -32,7 +32,7 @@ public class Logger {
     }
 
     public static void error(String s) {
-        String log = "[" + LocalTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) + "] [WARN]: " + s;
+        String log = "[" + LocalTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) + "] [ERROR]: " + s;
         System.out.println(ConsoleColors.RED + log + ConsoleColors.RESET);
         logSession.addEntry(log);
     }
