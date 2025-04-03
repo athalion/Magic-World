@@ -127,15 +127,15 @@ public class CollisionChecker {
 
         Entity collidedEntity = null;
 
-        for (int i = 0; i < target.length; i++) {
+        for (Entity value : target) {
 
-            if (target[i] != null) {
+            if (value != null) {
 
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
-                target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
-                target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
+                value.solidArea.x = value.worldX + value.solidArea.x;
+                value.solidArea.y = value.worldY + value.solidArea.y;
 
                 switch (entity.direction) {
                     case UP:
@@ -152,18 +152,18 @@ public class CollisionChecker {
                         break;
                 }
 
-                if (entity.solidArea.intersects(target[i].solidArea)) {
-                    if (target[i] != entity) {
+                if (entity.solidArea.intersects(value.solidArea)) {
+                    if (value != entity) {
                         entity.collisionOn = true;
-                        collidedEntity = target[i];
+                        collidedEntity = value;
                     }
                 }
 
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
 
-                target[i].solidArea.x = target[i].solidAreaDefaultX;
-                target[i].solidArea.y = target[i].solidAreaDefaultY;
+                value.solidArea.x = value.solidAreaDefaultX;
+                value.solidArea.y = value.solidAreaDefaultY;
 
             }
 

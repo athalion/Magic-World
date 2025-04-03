@@ -195,7 +195,7 @@ public class Player extends Entity {
 
                             inventory.remove(item);
 
-                            gamePanel.playSoundEffect(Sound.EFFECT_SWINGWEAPON);
+                            gamePanel.playSoundEffect(Sound.EFFECT_SWING_WEAPON);
                             gamePanel.doControllerVibration(0.2f, 0.2f, 100);
                             attacking = true;
                             spriteCounter = 0;
@@ -205,7 +205,7 @@ public class Player extends Entity {
                     }
                 } else {
 
-                    gamePanel.playSoundEffect(Sound.EFFECT_SWINGWEAPON);
+                    gamePanel.playSoundEffect(Sound.EFFECT_SWING_WEAPON);
                     gamePanel.doControllerVibration(0.2f, 0.2f, 100);
                     attacking = true;
                     spriteCounter = 0;
@@ -337,7 +337,7 @@ public class Player extends Entity {
         if (entity != null) {
 
             if (!invincible && entity.dyingTimer == 0) {
-                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVEDAMAGE);
+                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVE_DAMAGE);
                 gamePanel.doControllerVibration(0.5f, 0.5f, 700);
 
                 life -= UtilityTool.calculateDamage(entity, this);
@@ -353,7 +353,7 @@ public class Player extends Entity {
         if (entity != null) {
             if (!entity.invincible) {
                 if (!isFromProjectile) {
-                    gamePanel.playSoundEffect(Sound.EFFECT_HITMONSTER);
+                    gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
 
                     int damage = UtilityTool.calculateDamage(this, entity);
 
@@ -372,7 +372,7 @@ public class Player extends Entity {
                         exp += entity.exp;
                     }
                 } else {
-                    gamePanel.playSoundEffect(Sound.EFFECT_HITMONSTER);
+                    gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
 
                     entity.life -= currentWeapon.projectile.attack;
 
@@ -408,7 +408,7 @@ public class Player extends Entity {
             attack = getAttack();
             defence = getDefence();
 
-            gamePanel.playSoundEffect(Sound.EFFECT_LEVELUP);
+            gamePanel.playSoundEffect(Sound.EFFECT_LEVEL_UP);
 
             gamePanel.ui.currentSimpleDialog = "Du bist jetzt Level " + level + "!";
             gamePanel.gameState = GameState.MESSAGE;

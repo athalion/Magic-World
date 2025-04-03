@@ -4,72 +4,46 @@ import de.athalion.game.twodgame.logs.Logger;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
-import java.net.URL;
+import java.util.Objects;
 
 public class Sound {
 
-    public static int MUSIC_MENU = 0;
-    public static int EFFECT_COIN = 1;
-    public static int EFFECT_POWERUP = 2;
-    public static int EFFECT_UNLOCK = 3;
-    public static int EFFECT_FANFARE = 4;
-    public static int EFFECT_HITMONSTER = 5;
-    public static int EFFECT_RECEIVEDAMAGE = 6;
-    public static int EFFECT_SWINGWEAPON = 7;
-    public static int EFFECT_LEVELUP = 8;
-    public static int EFFECT_CURSOR = 9;
-    public static int EFFECT_TEXT = 10;
-    public static int EFFECT_LOGO = 11;
-    public static int MUSIC_DEMON_BATTLE_INTRO = 12;
-    public static int MUSIC_DEMON_BATTLE_LOOP = 13;
-    public static int MUSIC_DEMON_BATTLE_OUTRO = 14;
-    public static int MUSIC_DEMON_BATTLE_SMALL = 15;
-    public static int ENVIRONMENT_RAIN = 16;
-    public static int ENVIRONMENT_RAIN_DULL = 17;
+    public static String MUSIC_MENU = "/sound/music/menu.wav";
+    public static String EFFECT_COIN = "/sound/coin.wav";
+    public static String EFFECT_POWERUP = "/sound/powerup.wav";
+    public static String EFFECT_UNLOCK = "/sound/unlock.wav";
+    public static String EFFECT_FANFARE = "/sound/fanfare.wav";
+    public static String EFFECT_HIT_MONSTER = "/sound/hitmonster.wav";
+    public static String EFFECT_RECEIVE_DAMAGE = "/sound/receivedamage.wav";
+    public static String EFFECT_SWING_WEAPON = "/sound/swingweapon.wav";
+    public static String EFFECT_LEVEL_UP = "/sound/levelup.wav";
+    public static String EFFECT_CURSOR = "/sound/effects/cursor.wav";
+    public static String EFFECT_TEXT = "/sound/text.wav";
+    public static String EFFECT_LOGO = "/sound/logo.wav";
+    public static String MUSIC_DEMON_BATTLE_INTRO = "/sound/music/demon_battle/demon_battle_intro.wav";
+    public static String MUSIC_DEMON_BATTLE_LOOP = "/sound/music/demon_battle/demon_battle_loop.wav";
+    public static String MUSIC_DEMON_BATTLE_OUTRO = "/sound/music/demon_battle/demon_battle_outro.wav";
+    public static String MUSIC_DEMON_BATTLE_SMALL = "/sound/music/demon_battle/demon_battle_small.wav";
+    public static String ENVIRONMENT_RAIN = "/sound/environment/rain.wav";
+    public static String ENVIRONMENT_RAIN_DULL = "/sound/environment/rain_dull.wav";
 
     Clip clip;
     FloatControl volumeControl;
     float volume;
-    URL[] soundURL = new URL[100];
-    public int index;
-    public int next = 999;
+    public String file;
+    public String next = "";
     public boolean nextLooped = false;
     public boolean isLooped = false;
 
-    public Sound() {
-
-        soundURL[0] = getClass().getResource("/sound/music/menu.wav");
-        soundURL[1] = getClass().getResource("/sound/coin.wav");
-        soundURL[2] = getClass().getResource("/sound/powerup.wav");
-        soundURL[3] = getClass().getResource("/sound/unlock.wav");
-        soundURL[4] = getClass().getResource("/sound/fanfare.wav");
-        soundURL[5] = getClass().getResource("/sound/hitmonster.wav");
-        soundURL[6] = getClass().getResource("/sound/receivedamage.wav");
-        soundURL[7] = getClass().getResource("/sound/swingweapon.wav");
-        soundURL[8] = getClass().getResource("/sound/levelup.wav");
-        soundURL[9] = getClass().getResource("/sound/effects/cursor.wav");
-        soundURL[10] = getClass().getResource("/sound/text.wav");
-        soundURL[11] = getClass().getResource("/sound/logo.wav");
-        soundURL[12] = getClass().getResource("/sound/music/demon_battle/demon_battle_intro.wav");
-        soundURL[13] = getClass().getResource("/sound/music/demon_battle/demon_battle_loop.wav");
-        soundURL[14] = getClass().getResource("/sound/music/demon_battle/demon_battle_outro.wav");
-        soundURL[15] = getClass().getResource("/sound/music/demon_battle/demon_battle_small.wav");
-        soundURL[16] = getClass().getResource("/sound/environment/rain.wav");
-        soundURL[17] = getClass().getResource("/sound/environment/rain_dull.wav");
-
-    }
-
-    public void setFile(int i) {
-
-        index = i;
+    public void setFile(String file) {
 
         try {
             clip = AudioSystem.getClip();
-            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResource(file)));
             clip.open(ais);
             volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            Logger.error("Error reading sound file " + soundURL[i] + ": " + e.getMessage());
+            Logger.error("Error reading sound file " + file + ": " + e.getMessage());
             Logger.stackTrace(e.getStackTrace());
         }
 

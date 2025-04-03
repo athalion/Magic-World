@@ -131,7 +131,7 @@ public abstract class Entity {
 
         if (this.type == EntityType.MONSTER && contactPlayer && this.dyingTimer == 0) {
             if (!gamePanel.player.invincible) {
-                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVEDAMAGE);
+                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVE_DAMAGE);
                 gamePanel.doControllerVibration(0.5f, 0.5f, 700);
 
                 gamePanel.player.life -= UtilityTool.calculateDamage(this, gamePanel.player);

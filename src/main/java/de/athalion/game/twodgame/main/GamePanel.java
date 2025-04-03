@@ -227,10 +227,10 @@ public class GamePanel extends JPanel implements Runnable {
             musicTimer -= (double) 1 / 60;
             if (musicTimer <= 0) {
                 if (music.isLooped) {
-                    playMusic(music.index, true);
-                } else if (music.next != 999) {
+                    playMusic(music.file, true);
+                } else if (!music.next.isEmpty()) {
                     playMusic(music.next, music.nextLooped);
-                    music.next = 999;
+                    music.next = "";
                 }
 
                 musicEnd = true;
@@ -243,10 +243,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (environmentEffectTimer <= 0) {
                 if (environment.isLooped) {
-                    playEnvironmentEffect(environment.index, true);
-                } else if (environment.next != 999) {
+                    playEnvironmentEffect(environment.file, true);
+                } else if (!environment.next.isEmpty()) {
                     playEnvironmentEffect(environment.next, environment.nextLooped);
-                    environment.next = 999;
+                    environment.next = "";
                 }
 
                 environmentEffectEnd = true;
@@ -393,15 +393,15 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void playMusicIntro(int i, int next, boolean looped) {
-        playMusic(i, false);
+    public void playMusicIntro(String sound, String next, boolean looped) {
+        playMusic(sound, false);
 
         music.next = next;
         music.nextLooped = looped;
     }
 
-    public void playMusic(int i, boolean looped) {
-        music.setFile(i);
+    public void playMusic(String sound, boolean looped) {
+        music.setFile(sound);
         music.setLooped(looped);
         updateVolume();
         music.play();
@@ -418,16 +418,16 @@ public class GamePanel extends JPanel implements Runnable {
         musicPlaying = false;
     }
 
-    public boolean scheduleMusic(int i, boolean looped) {
+    public boolean scheduleMusic(String sound, boolean looped) {
         if (musicEnd) {
             stopMusic();
-            playMusic(i, looped);
+            playMusic(sound, looped);
             return true;
         } else return false;
     }
 
-    public void playEnvironmentEffect(int i, boolean looped) {
-        environment.setFile(i);
+    public void playEnvironmentEffect(String sound, boolean looped) {
+        environment.setFile(sound);
         environment.setLooped(looped);
         updateVolume();
         environment.play();
@@ -444,16 +444,16 @@ public class GamePanel extends JPanel implements Runnable {
         environmentEffectPlaying = false;
     }
 
-    public boolean scheduleEnvironmentEffect(int i, boolean looped) {
+    public boolean scheduleEnvironmentEffect(String sound, boolean looped) {
         if (environmentEffectEnd) {
             stopEnvironmentEffect();
-            playEnvironmentEffect(i, looped);
+            playEnvironmentEffect(sound, looped);
             return true;
         } else return false;
     }
 
-    public void playSoundEffect(int i) {
-        soundEffect.setFile(i);
+    public void playSoundEffect(String sound) {
+        soundEffect.setFile(sound);
         soundEffect.updateVolume(settings.FXVolume);
         soundEffect.play();
     }
