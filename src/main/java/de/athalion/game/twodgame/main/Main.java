@@ -30,7 +30,7 @@ public class Main {
         ImageIcon icon = new ImageIcon(Requirements.notNull(img, "Could not load logo because /menu/logo.gif is null!"));
 
         icon.setImage(icon.getImage().getScaledInstance(window.getWidth(), window.getHeight(), Image.SCALE_FAST));
-        logo = new JLabel("", icon, 0);
+        logo = new JLabel("", icon, SwingConstants.CENTER);
 
         gamePanel.add(logo);
         gamePanel.playSoundEffect(Sound.EFFECT_LOGO);
