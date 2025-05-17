@@ -5,7 +5,7 @@ import de.athalion.game.twodgame.graphics.CutSceneManager;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
-import de.athalion.game.twodgame.menu.MenuManager;
+import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.object.OBJ_Heart;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.RenderUtils;
