@@ -14,6 +14,7 @@ public class Settings {
     public int FXVolume = 9;
     public int environmentVolume = 5;
     public boolean fullscreen = true;
+    public boolean hardwareAcceleration = true;
 
     public static void saveSettings(Settings settings) {
         Logger.log("Saving settings...");
