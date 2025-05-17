@@ -1,4 +1,4 @@
-package de.athalion.game.twodgame.world;
+package de.athalion.game.twodgame.world.tile;
 
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
