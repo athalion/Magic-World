@@ -44,11 +44,8 @@ public class EnvironmentEffects {
                 rainPosition.y += 10;
             }
             Vector2 rainPosition = rainPositions.get(random.nextInt(rainPositions.size()));
-            gamePanel.worldManager.getCurrentWorld().spawnParticle(Particle.Texture.SPLASH, (int) rainPosition.x, (int) rainPosition.y);
+            gamePanel.worldManager.getCurrentWorld().spawnParticle(Particle.Textures.SPLASH, (int) rainPosition.x, (int) rainPosition.y);
             rainPositions.removeIf(positions -> positions.y - 20 > gamePanel.worldManager.getCurrentWorld().getMaxWorldRow() * gamePanel.tileSize);
-        }
-        if (effectTypes.contains(Type.DAYLIGHT_CYCLE)) {
-
         }
 
     }

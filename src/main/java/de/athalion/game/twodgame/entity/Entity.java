@@ -282,7 +282,7 @@ public abstract class Entity {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
         if (dyingTimer > 35 && dyingTimer <= 40) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
-            gamePanel.worldManager.getCurrentWorld().spawnParticle(Particle.Texture.ENTITY_DEATH, worldX, worldY);
+            gamePanel.worldManager.getCurrentWorld().spawnParticle(Particle.Textures.ENTITY_DEATH, worldX, worldY);
         }
         if (dyingTimer > 40) {
             dying = false;

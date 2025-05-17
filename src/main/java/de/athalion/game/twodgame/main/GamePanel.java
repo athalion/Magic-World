@@ -10,8 +10,9 @@ import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.schedule.Scheduler;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.CollisionChecker;
+import de.athalion.game.twodgame.utility.Requirements;
 import de.athalion.game.twodgame.utility.UtilityTool;
-import de.athalion.game.twodgame.world.TileManager;
+import de.athalion.game.twodgame.world.tile.TileManager;
 import de.athalion.game.twodgame.world.WorldManager;
 
 import javax.swing.*;
@@ -325,10 +326,6 @@ public class GamePanel extends JPanel implements Runnable {
         worldManager.load(System.getProperty("user.dir") + "/saves/" + name);
     }
 
-    public void saveGame() {
-        worldManager.save();
-    }
-
     public void newGame(String name) {
 
         createSaveDir();
@@ -337,7 +334,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (!file.exists()) {
             file.mkdir();
             try {
-                UtilityTool.copyFolder(new File(getClass().getResource("/new_game/").toURI().getPath()), file);
+                UtilityTool.copyFolder(new File(Requirements.notNull(getClass().getResource("/new_game/"), "Failed creating new game. /new_game/ is null!").toURI().getPath()), file);
             } catch (URISyntaxException e) {
                 Logger.error("Error while copying game files to new game " + name + ": " + e.getMessage());
                 Logger.stackTrace(e.getStackTrace());
@@ -475,10 +472,10 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.cameraX = x + (random.nextInt(amount) - ((double) amount / 2));
         tileManager.cameraY = y + (random.nextInt(amount) - ((double) amount / 2));
         for (int i = 0; i < duration; i++) {
-            scheduler.runTaskLater(new Task(() -> {
+            scheduler.runTaskLater(() -> {
                 tileManager.cameraX = x + (random.nextInt(amount) - ((double) amount / 2));
                 tileManager.cameraY = y + (random.nextInt(amount) - ((double) amount / 2));
-            }, 10 * i));
+            }, 10 * i);
         }
     }
 

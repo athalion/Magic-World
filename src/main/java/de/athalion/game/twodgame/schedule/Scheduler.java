@@ -1,20 +1,23 @@
 package de.athalion.game.twodgame.schedule;
 
-import de.athalion.game.twodgame.main.Task;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Scheduler {
 
-    List<Task> tasks = new ArrayList<>();
+    List<TimedTask> tasks = new ArrayList<>();
 
-    public void runTaskLater(Task task) {
-        tasks.add(task);
+    public void runTaskLater(Runnable runnable, int delay) {
+        tasks.add(new Task(runnable, delay));
+    }
+
+    public void runTimer(double start, double end, int duration, Consumer<Double> callback) {
+        tasks.add(new Timer(start, end, duration, callback));
     }
 
     public void tick() {
-        tasks.removeIf(Task::tick);
+        tasks.removeIf(TimedTask::tick);
     }
 
 }

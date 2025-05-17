@@ -13,4 +13,12 @@ public class Requirements {
         return obj;
     }
 
+    public static void requires(boolean fulfilled, String message) {
+        if (!fulfilled) {
+            Logger.error(message);
+            Logger.stackTrace(Thread.currentThread().getStackTrace());
+            throw new IllegalStateException(message);
+        }
+    }
+
 }
