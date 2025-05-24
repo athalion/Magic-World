@@ -5,8 +5,11 @@ import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphicsSettingsMenu implements MenuPage {
 
@@ -48,7 +51,7 @@ public class GraphicsSettingsMenu implements MenuPage {
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Effekt Lautstärke - " + gamePanel.settings.FXVolume * 10 + "%";
+        text = "Placeholder option";
         y = gamePanel.tileSize * 7;
         if (commandNum == 2) {
             g2.setColor(Color.ORANGE);
@@ -75,8 +78,45 @@ public class GraphicsSettingsMenu implements MenuPage {
         if (keyState.isMenuOKPressed()) {
             switch (commandNum) {
                 case 0:
-                    gamePanel.settings.fullscreen = !gamePanel.settings.fullscreen;
-                    gamePanel.setFullScreen(gamePanel.settings.fullscreen);
+                    if (gamePanel.settings.fullscreen) {
+                        gamePanel.settings.fullscreen = false;
+                        gamePanel.setFullScreen(false, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
+                    } else {
+                        GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+                        if (screenDevices.length == 1) {
+                            List<JFrame> frames = new ArrayList<>();
+                            for (int i = 0; i < screenDevices.length; i++) {
+                                GraphicsDevice screenDevice = screenDevices[i];
+                                JFrame frame = new JFrame();
+                                frame.setSize(400, 200);
+                                frame.setUndecorated(true);
+
+                                Rectangle bounds = screenDevice.getDefaultConfiguration().getBounds();
+
+                                int x = bounds.x + (bounds.width - frame.getWidth()) / 2;
+                                int y = bounds.y + (bounds.height - frame.getHeight()) / 2;
+
+                                frame.setLocation(x, y);
+
+                                Button button = new Button("Click to open window here!");
+                                int finalI = i;
+                                button.addActionListener(_ -> {
+                                    frames.forEach(Window::dispose);
+                                    gamePanel.settings.fullscreen = true;
+                                    gamePanel.settings.screen = finalI;
+                                    gamePanel.setFullScreen(true, screenDevice);
+                                });
+                                frame.add(button);
+                                frame.setVisible(true);
+
+                                frames.add(frame);
+                            }
+                        } else {
+                            gamePanel.setFullScreen(true, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
+                            gamePanel.settings.fullscreen = true;
+                            gamePanel.settings.screen = 0;
+                        }
+                    }
                     break;
                 case 1:
                     gamePanel.settings.hardwareAcceleration = !gamePanel.settings.hardwareAcceleration;

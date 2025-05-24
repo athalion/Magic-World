@@ -13,12 +13,11 @@ import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.CollisionChecker;
 import de.athalion.game.twodgame.utility.Requirements;
 import de.athalion.game.twodgame.utility.UtilityTool;
-import de.athalion.game.twodgame.world.tile.TileManager;
 import de.athalion.game.twodgame.world.WorldManager;
+import de.athalion.game.twodgame.world.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -52,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     BufferedImage tempScreen;
     BufferedImage tempUIImage;
     BufferStrategy bs;
+    boolean pauseDrawing = false;
 
     Scheduler scheduler = new Scheduler();
 
@@ -92,43 +92,57 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = GameState.LOGO;
 
         settings = Settings.loadSettings();
-        setFullScreen(settings.fullscreen);
+        setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
 
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
     }
 
-    public void setFullScreen(boolean fullScreen) {
+    public void setFullScreen(boolean fullScreen, GraphicsDevice targetDevice) {
+        pauseDrawing = true;
 
-        if (Main.window != null) {
-            Main.window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            Main.window.dispatchEvent(new WindowEvent(Main.window, WindowEvent.WINDOW_CLOSING));
+        if (Main.window == null) {
+            Main.window = new JFrame("Magic World SNAPSHOT 2.3");
+            Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Main.window.add(this);
         }
 
-        Main.window = new JFrame("Magic World SNAPSHOT 2.1");
-        Main.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Main.window.add(this);
-
         if (fullScreen) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Main.window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            Main.window.setPreferredSize(screenSize);
+            Main.window.dispose();
             Main.window.setUndecorated(true);
+
+            Dimension screenSize = targetDevice.getDefaultConfiguration().getBounds().getSize();
+            Main.window.setSize(screenSize);
+            Main.window.setResizable(false);
             Main.window.setCursor(Main.blankCursor);
+
+            targetDevice.setFullScreenWindow(Main.window);
 
             drawWidth = (int) screenSize.getWidth();
             drawHeight = (int) screenSize.getHeight();
+
         } else {
+            if (targetDevice.getFullScreenWindow() == Main.window) {
+                targetDevice.setFullScreenWindow(null);
+            }
+
+            Main.window.dispose();
+            Main.window.setUndecorated(false);
+
+            Main.window.setSize(screenWidth, screenHeight);
+            Main.window.setResizable(false);
+            Main.window.setCursor(Cursor.getDefaultCursor());
+            Main.window.setLocationRelativeTo(null);
+
             drawWidth = screenWidth;
             drawHeight = screenHeight;
         }
 
-        Main.window.setResizable(false);
         Main.window.setVisible(true);
-        Main.window.pack();
 
         Main.window.createBufferStrategy(3);
         bs = Main.window.getBufferStrategy();
 
+        pauseDrawing = false;
     }
 
     public void startGameThread() {
@@ -316,7 +330,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawScreen() {
-        if (gameState != GameState.LOGO) {
+        if (gameState != GameState.LOGO && !pauseDrawing) {
             draw((Graphics2D) tempScreen.getGraphics());
             double x = drawWidth * (tileManager.zoom - 1) / 2;
             double y = drawHeight * (tileManager.zoom - 1) / 2;
