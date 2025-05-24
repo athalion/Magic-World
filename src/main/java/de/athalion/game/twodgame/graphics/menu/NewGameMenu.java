@@ -3,8 +3,8 @@ package de.athalion.game.twodgame.graphics.menu;
 import de.athalion.game.twodgame.input.KeyState;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
+import de.athalion.game.twodgame.save.SaveStateManager;
 import de.athalion.game.twodgame.utility.RenderUtils;
-import de.athalion.game.twodgame.utility.UtilityTool;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -47,7 +47,7 @@ public class NewGameMenu implements MenuPage {
         MenuPage newMenuPage = null;
 
         if (keyState.isMenuOKPressed()) {
-            gamePanel.newGame(input.toString());
+            SaveStateManager.createSaveState(input.toString().trim());
             gamePanel.stopMusic();
             gamePanel.gameState = GameState.PLAY;
         } else if (keyState.isMenuBackPressed()) {
@@ -58,8 +58,11 @@ public class NewGameMenu implements MenuPage {
                 if (!input.isEmpty()) {
                     input.deleteCharAt(input.length() - 1);
                 }
-            } else if (!UtilityTool.isIgnoredKey(keyEvent)) {
-                input.append(keyEvent.getKeyChar());
+            } else {
+                int type = Character.getType(code);
+                if (type == Character.LOWERCASE_LETTER || type == Character.UPPERCASE_LETTER || Character.isSpaceChar(code)) {
+                    input.append(keyEvent.getKeyChar());
+                }
             }
         }
 

@@ -47,6 +47,32 @@ public class KeyHandler implements KeyListener {
         processInput(keyState, e);
     }
 
+    public void checkControllerInput() {
+
+        ControllerState currentState = controllers.getState(0);
+
+        if (currentState.isConnected) {
+
+            KeyState keyState = new KeyState()
+                    .setMenuUpPressed(currentState.dpadUpJustPressed)
+                    .setMenuDownPressed(currentState.dpadDownJustPressed)
+                    .setMenuLeftPressed(currentState.dpadLeftJustPressed)
+                    .setMenuRightPressed(currentState.dpadRightJustPressed)
+                    .setMenuOKPressed(currentState.aJustPressed)
+                    .setMenuBackPressed(currentState.bJustPressed)
+                    .setMoveUpPressed(currentState.leftStickY >= 0.7f)
+                    .setMoveDownPressed(currentState.leftStickY <= -0.7f)
+                    .setMoveLeftPressed(currentState.leftStickX <= -0.7f)
+                    .setMoveRightPressed(currentState.leftStickX >= 0.7f)
+                    .setAttackPressed(currentState.aJustPressed)
+                    .setInventoryKeyPressed(currentState.xJustPressed)
+                    .setEscapePressed(currentState.startJustPressed);
+            processInput(keyState, null);
+
+        }
+
+    }
+
     private void processInput(KeyState keyState, KeyEvent e) {
         //logo state
         if (gamePanel.gameState == GameState.LOGO) {
@@ -219,32 +245,6 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
-        }
-
-    }
-
-    public void checkControllerInput() {
-
-        ControllerState currentState = controllers.getState(0);
-
-        if (currentState.isConnected) {
-
-            KeyState keyState = new KeyState()
-                    .setMenuUpPressed(currentState.dpadUpJustPressed)
-                    .setMenuDownPressed(currentState.dpadDownJustPressed)
-                    .setMenuLeftPressed(currentState.dpadLeftJustPressed)
-                    .setMenuRightPressed(currentState.dpadRightJustPressed)
-                    .setMenuOKPressed(currentState.aJustPressed)
-                    .setMenuBackPressed(currentState.bJustPressed)
-                    .setMoveUpPressed(currentState.leftStickY >= 0.7f)
-                    .setMoveDownPressed(currentState.leftStickY <= -0.7f)
-                    .setMoveLeftPressed(currentState.leftStickX <= -0.7f)
-                    .setMoveRightPressed(currentState.leftStickX >= 0.7f)
-                    .setAttackPressed(currentState.aJustPressed)
-                    .setInventoryKeyPressed(currentState.xJustPressed)
-                    .setEscapePressed(currentState.startJustPressed);
-            processInput(keyState, null);
-
         }
 
     }

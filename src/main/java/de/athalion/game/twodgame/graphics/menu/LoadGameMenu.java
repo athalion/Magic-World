@@ -3,6 +3,7 @@ package de.athalion.game.twodgame.graphics.menu;
 import de.athalion.game.twodgame.input.KeyState;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
+import de.athalion.game.twodgame.save.SaveStateManager;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
 import java.awt.*;
@@ -21,7 +22,7 @@ public class LoadGameMenu implements MenuPage {
     public LoadGameMenu(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        saves = gamePanel.getSaves();
+        saves = SaveStateManager.getSaves();
         maxCommandNum = saves.size() - 1;
     }
 
