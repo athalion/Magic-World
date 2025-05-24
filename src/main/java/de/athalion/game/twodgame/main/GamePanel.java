@@ -7,6 +7,7 @@ import de.athalion.game.twodgame.graphics.EnvironmentEffects;
 import de.athalion.game.twodgame.graphics.ui.UI;
 import de.athalion.game.twodgame.input.KeyHandler;
 import de.athalion.game.twodgame.logs.Logger;
+import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.schedule.Scheduler;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.CollisionChecker;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    //DEV
+    //debug
     public boolean pauseUpdates = false;
 
     final int originalTileSize = 16;
@@ -346,26 +347,6 @@ public class GamePanel extends JPanel implements Runnable {
             }
             loadGame(name);
         }
-
-    }
-
-    public List<String> getSaves() {
-
-        createSaveDir();
-        List<String> saves = new ArrayList<>();
-        File saveDirectory = new File(System.getProperty("user.dir"), "saves");
-
-        if (saveDirectory.exists() && saveDirectory.isDirectory()) {
-            if (saveDirectory.listFiles() != null) {
-                for (File file : saveDirectory.listFiles()) {
-                    if (file.isDirectory()) {
-                        saves.add(file.getName());
-                    }
-                }
-            }
-        }
-
-        return saves;
 
     }
 
