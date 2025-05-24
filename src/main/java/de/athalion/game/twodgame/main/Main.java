@@ -34,7 +34,6 @@ public class Main {
 
         gamePanel.add(logo);
         gamePanel.playSoundEffect(Sound.EFFECT_LOGO);
-        window.pack();
 
         BufferedImage cursorImage = null;
         try {
