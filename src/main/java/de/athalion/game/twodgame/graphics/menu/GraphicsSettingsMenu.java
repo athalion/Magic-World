@@ -8,7 +8,6 @@ import de.athalion.game.twodgame.utility.RenderUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,29 +83,38 @@ public class GraphicsSettingsMenu implements MenuPage {
                         gamePanel.setFullScreen(false, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
                     } else {
                         GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-                        List<JFrame> frames = new ArrayList<>();
-                        for (GraphicsDevice screenDevice : screenDevices) {
-                            JFrame frame = new JFrame();
-                            frame.setSize(400, 200);
-                            frame.setUndecorated(true);
+                        if (screenDevices.length == 1) {
+                            List<JFrame> frames = new ArrayList<>();
+                            for (int i = 0; i < screenDevices.length; i++) {
+                                GraphicsDevice screenDevice = screenDevices[i];
+                                JFrame frame = new JFrame();
+                                frame.setSize(400, 200);
+                                frame.setUndecorated(true);
 
-                            Rectangle bounds = screenDevice.getDefaultConfiguration().getBounds();
+                                Rectangle bounds = screenDevice.getDefaultConfiguration().getBounds();
 
-                            int x = bounds.x + (bounds.width - frame.getWidth()) / 2;
-                            int y = bounds.y + (bounds.height - frame.getHeight()) / 2;
+                                int x = bounds.x + (bounds.width - frame.getWidth()) / 2;
+                                int y = bounds.y + (bounds.height - frame.getHeight()) / 2;
 
-                            frame.setLocation(x, y);
+                                frame.setLocation(x, y);
 
-                            Button button = new Button("Click to open window here!");
-                            button.addActionListener(_ -> {
-                                frames.forEach(jFrame -> jFrame.dispatchEvent(new WindowEvent(jFrame, WindowEvent.WINDOW_CLOSING)));
-                                gamePanel.settings.fullscreen = true;
-                                gamePanel.setFullScreen(true, screenDevice);
-                            });
-                            frame.add(button);
-                            frame.setVisible(true);
+                                Button button = new Button("Click to open window here!");
+                                int finalI = i;
+                                button.addActionListener(_ -> {
+                                    frames.forEach(Window::dispose);
+                                    gamePanel.settings.fullscreen = true;
+                                    gamePanel.settings.screen = finalI;
+                                    gamePanel.setFullScreen(true, screenDevice);
+                                });
+                                frame.add(button);
+                                frame.setVisible(true);
 
-                            frames.add(frame);
+                                frames.add(frame);
+                            }
+                        } else {
+                            gamePanel.setFullScreen(true, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
+                            gamePanel.settings.fullscreen = true;
+                            gamePanel.settings.screen = 0;
                         }
                     }
                     break;
