@@ -83,7 +83,7 @@ public class GraphicsSettingsMenu implements MenuPage {
                         gamePanel.setFullScreen(false, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
                     } else {
                         GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-                        if (screenDevices.length == 1) {
+                        if (screenDevices.length > 1) {
                             List<JFrame> frames = new ArrayList<>();
                             for (int i = 0; i < screenDevices.length; i++) {
                                 GraphicsDevice screenDevice = screenDevices[i];
