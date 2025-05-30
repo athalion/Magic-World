@@ -92,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = GameState.LOGO;
 
         settings = Settings.loadSettings();
+        Settings.applySettings(settings);
         setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
 
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);

@@ -35,8 +35,6 @@ public class GraphicsSettingsMenu implements MenuPage {
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);
 
-        maxCommandNum = 2;
-
         text = "Vollbild - " + (gamePanel.settings.fullscreen ? "Ein" : "Aus");
         y = gamePanel.tileSize * 5;
         if (commandNum == 0) {
@@ -124,7 +122,7 @@ public class GraphicsSettingsMenu implements MenuPage {
                     Logger.log("Hardware acceleration " + (gamePanel.settings.hardwareAcceleration ? "enabled" : "disabled"));
                     break;
                 case 2:
-
+                    newMenuPage = new LanguageMenu(gamePanel);
                     break;
             }
 
