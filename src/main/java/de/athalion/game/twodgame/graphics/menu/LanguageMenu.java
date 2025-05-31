@@ -19,7 +19,7 @@ public class LanguageMenu implements MenuPage {
     int maxCommandNum;
 
     List<Language> languages;
-    float displayX = 0;
+    float displayY = 0;
 
     public LanguageMenu(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -41,17 +41,26 @@ public class LanguageMenu implements MenuPage {
         int y = gamePanel.tileSize;
         g2.drawString(text, x, y);
 
-        displayX += ((-commandNum * gamePanel.tileSize) - displayX) / 16;
+        displayY += ((-commandNum * gamePanel.tileSize) - displayY) / 16;
         for (int i = 0; i < languages.size(); i++) {
             Language language = languages.get(i);
-            y = (int) (displayX + ((i + 1.5) * gamePanel.tileSize) + ((float) gamePanel.screenHeight / 2));
-            if (x > 3 * gamePanel.tileSize && x < gamePanel.screenHeight - (1.5 * gamePanel.tileSize)) {
+            y = (int) (displayY + ((i + 1.5) * gamePanel.tileSize) + ((float) gamePanel.screenHeight / 2));
+            if (y > 0 && y < gamePanel.screenHeight + gamePanel.tileSize) {
+                double distance = Math.max((3 * gamePanel.tileSize) - y, y - (gamePanel.screenHeight - (1.5 * gamePanel.tileSize)));
                 if (i == commandNum) {
                     g2.setColor(Color.ORANGE);
                     g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
                 } else {
                     g2.setColor(Color.WHITE);
                     g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+                }
+                if (distance >= 0) {
+                    g2.setColor(new Color(
+                            g2.getColor().getRed(),
+                            g2.getColor().getGreen(),
+                            g2.getColor().getBlue(),
+                            Math.max((int) (255 - (distance / gamePanel.tileSize * 255)), 0)
+                    ));
                 }
                 x = RenderUtils.getXForCenteredText(language.getName(), g2, gamePanel);
                 g2.drawString(language.getName(), x, y);

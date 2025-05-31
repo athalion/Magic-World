@@ -15,10 +15,11 @@ public class LoadGameMenu implements MenuPage {
 
     GamePanel gamePanel;
 
-    List<String> saves;
-
     int commandNum = 0;
     int maxCommandNum = 0;
+
+    List<String> saves;
+    float displayY = 0;
 
     public LoadGameMenu(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -42,30 +43,30 @@ public class LoadGameMenu implements MenuPage {
         String text = Translations.get("menu.load.title");
         g2.drawString(text, RenderUtils.getXForCenteredText(text, g2, gamePanel), y);
 
-        y += gamePanel.tileSize;
-
-        int i = commandNum;
-        if ((saves.size() - commandNum) <= 9) i = Math.max(saves.size() - 9, 0);
-
-        while (i < saves.size()) {
-            if (commandNum == i) {
-                g2.setColor(Color.WHITE);
-            } else g2.setColor(Color.GRAY);
-            g2.fillRect(x + 1, y + 1, width - 2, height - 2);
-            if (commandNum == i) {
-                g2.setColor(Color.DARK_GRAY);
-            } else g2.setColor(Color.BLACK);
-            g2.fillRect(x + 4, y + 4, width - 8, height - 8);
-            if (commandNum == i) {
-                g2.setColor(Color.ORANGE);
-            } else g2.setColor(Color.WHITE);
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
-            g2.drawString(saves.get(i), x + 13, y + 32);
-
-            y += gamePanel.tileSize;
-            i++;
-
-            if (y >= gamePanel.tileSize * 11) break;
+        displayY += ((-commandNum * gamePanel.tileSize) - displayY) / 16;
+        for (int i = 0; i < saves.size(); i++) {
+            String save = saves.get(i);
+            y = (int) (displayY + ((i + 1.5) * gamePanel.tileSize) + ((float) gamePanel.screenHeight / 2));
+            if (y > 0 && y < gamePanel.screenHeight + gamePanel.tileSize) {
+                double distance = Math.max((3 * gamePanel.tileSize) - y, y - (gamePanel.screenHeight - (1.5 * gamePanel.tileSize)));
+                if (i == commandNum) {
+                    g2.setColor(Color.ORANGE);
+                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+                } else {
+                    g2.setColor(Color.WHITE);
+                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+                }
+                if (distance >= 0) {
+                    g2.setColor(new Color(
+                            g2.getColor().getRed(),
+                            g2.getColor().getGreen(),
+                            g2.getColor().getBlue(),
+                            Math.max((int) (255 - (distance / (1.5 * gamePanel.tileSize) * 255)), 0)
+                    ));
+                }
+                x = RenderUtils.getXForCenteredText(save, g2, gamePanel);
+                g2.drawString(save, x, y);
+            }
         }
 
         MenuUtils.drawControlTips(g2, gamePanel, "[A] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
