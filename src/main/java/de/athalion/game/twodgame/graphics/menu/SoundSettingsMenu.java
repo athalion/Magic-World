@@ -1,6 +1,8 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Replacement;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
@@ -26,35 +28,35 @@ public class SoundSettingsMenu implements MenuPage {
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
 
-        String text = "Einstellungen - Audio";
+        String text = Translations.get("menu.audio.title");
         int x = gamePanel.tileSize;
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);
 
         maxCommandNum = 3;
 
-        text = "Sound aktivieren - " + (gamePanel.settings.enableSound ? "Ein" : "Aus");
+        text = Translations.get("menu.audio.enable_sound", new Replacement("%a", (gamePanel.settings.enableSound ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
         y = gamePanel.tileSize * 5;
         if (commandNum == 0) {
             g2.setColor(Color.ORANGE);
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Musik Lautstärke - " + gamePanel.settings.musicVolume * 10 + "%";
+        text = Translations.get("menu.audio.music", new Replacement("%a", String.valueOf(gamePanel.settings.musicVolume)));
         y = gamePanel.tileSize * 6;
         if (commandNum == 1) {
             g2.setColor(Color.ORANGE);
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Effekt Lautstärke - " + gamePanel.settings.FXVolume * 10 + "%";
+        text = Translations.get("menu.audio.effects", new Replacement("%a", String.valueOf(gamePanel.settings.effectVolume)));
         y = gamePanel.tileSize * 7;
         if (commandNum == 2) {
             g2.setColor(Color.ORANGE);
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Umbebungs Lautstärke - " + gamePanel.settings.environmentVolume * 10 + "%";
+        text = Translations.get("menu.audio.environment", new Replacement("%a", String.valueOf(gamePanel.settings.environmentVolume)));
         y = gamePanel.tileSize * 8;
         if (commandNum == 3) {
             g2.setColor(Color.ORANGE);
@@ -84,7 +86,7 @@ public class SoundSettingsMenu implements MenuPage {
                     if (gamePanel.settings.musicVolume != 0) gamePanel.settings.musicVolume -= 1;
                     break;
                 case 2:
-                    if (gamePanel.settings.FXVolume != 0) gamePanel.settings.FXVolume -= 1;
+                    if (gamePanel.settings.effectVolume != 0) gamePanel.settings.effectVolume -= 1;
                     break;
                 case 3:
                     if (gamePanel.settings.environmentVolume != 0) gamePanel.settings.environmentVolume -= 1;
@@ -98,7 +100,7 @@ public class SoundSettingsMenu implements MenuPage {
                     if (gamePanel.settings.musicVolume != 10) gamePanel.settings.musicVolume += 1;
                     break;
                 case 2:
-                    if (gamePanel.settings.FXVolume != 10) gamePanel.settings.FXVolume += 1;
+                    if (gamePanel.settings.effectVolume != 10) gamePanel.settings.effectVolume += 1;
                     break;
                 case 3:
                     if (gamePanel.settings.environmentVolume != 10) gamePanel.settings.environmentVolume += 1;

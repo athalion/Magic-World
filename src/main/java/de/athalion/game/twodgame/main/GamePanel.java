@@ -92,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = GameState.LOGO;
 
         settings = Settings.loadSettings();
+        Settings.applySettings(settings);
         setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
 
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
@@ -381,7 +382,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void updateVolume() {
         if (settings.enableSound) {
             music.updateVolume(settings.musicVolume);
-            soundEffect.updateVolume(settings.FXVolume);
+            soundEffect.updateVolume(settings.effectVolume);
             environment.updateVolume(settings.environmentVolume);
         } else {
             music.updateVolume(0);
@@ -451,7 +452,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playSoundEffect(String sound) {
         soundEffect.setFile(sound);
-        soundEffect.updateVolume(settings.FXVolume);
+        soundEffect.updateVolume(settings.effectVolume);
         soundEffect.play();
     }
 

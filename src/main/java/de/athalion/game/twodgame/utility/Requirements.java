@@ -1,10 +1,11 @@
 package de.athalion.game.twodgame.utility;
 
 import de.athalion.game.twodgame.logs.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class Requirements {
 
-    public static <T> T notNull(T obj, String message) {
+    public static @NotNull <T> T notNull(T obj, String message) {
         if (obj == null) {
             Logger.error(message);
             Logger.stackTrace(Thread.currentThread().getStackTrace());

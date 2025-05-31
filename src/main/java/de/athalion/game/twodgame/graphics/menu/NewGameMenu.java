@@ -1,6 +1,7 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.save.SaveStateManager;
@@ -27,7 +28,7 @@ public class NewGameMenu implements MenuPage {
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 42F));
 
-        String text = "Wähle einen Namen für deinen Spielstand!";
+        String text = Translations.get("menu.new.title");
         int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);

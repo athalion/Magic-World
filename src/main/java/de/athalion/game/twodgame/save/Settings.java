@@ -2,6 +2,8 @@ package de.athalion.game.twodgame.save;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.athalion.game.twodgame.lang.Languages;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.logs.Logger;
 
 import java.io.*;
@@ -11,11 +13,12 @@ public class Settings {
     public boolean enableController = true;
     public boolean enableSound = true;
     public int musicVolume = 7;
-    public int FXVolume = 9;
+    public int effectVolume = 9;
     public int environmentVolume = 5;
     public boolean fullscreen = true;
     public boolean hardwareAcceleration = true;
     public int screen = 0;
+    public String language = "en_us";
 
     public static void saveSettings(Settings settings) {
         Logger.log("Saving settings...");
@@ -63,6 +66,11 @@ public class Settings {
                 Logger.stackTrace(e.getStackTrace());
             }
         }
+    }
+
+    public static void applySettings(Settings settings) {
+        System.setProperty("sun.java2d.opengl", settings.hardwareAcceleration ? "true" : "false");
+        Translations.changeLanguage(Languages.get(settings.language));
     }
 
 }
