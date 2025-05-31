@@ -1,6 +1,7 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
@@ -26,12 +27,12 @@ public class SettingsMenu implements MenuPage {
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
 
-        String text = "Einstellungen";
+        String text = Translations.get("menu.settings.title");
         int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);
 
-        text = "Eingabe";
+        text = Translations.get("menu.settings.input");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.tileSize * 6;
         if (commandNum == 0) {
@@ -39,7 +40,7 @@ public class SettingsMenu implements MenuPage {
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Grafik";
+        text = Translations.get("menu.settings.graphics");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.tileSize * 8;
         if (commandNum == 1) {
@@ -47,7 +48,7 @@ public class SettingsMenu implements MenuPage {
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Audio";
+        text = Translations.get("menu.settings.audio");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.tileSize * 10;
         if (commandNum == 2) {

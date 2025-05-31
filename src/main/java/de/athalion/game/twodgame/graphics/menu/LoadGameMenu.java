@@ -1,6 +1,7 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.save.SaveStateManager;
@@ -38,7 +39,7 @@ public class LoadGameMenu implements MenuPage {
 
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 46F));
-        String text = "Spielstand auswählen!";
+        String text = Translations.get("menu.load.title");
         g2.drawString(text, RenderUtils.getXForCenteredText(text, g2, gamePanel), y);
 
         y += gamePanel.tileSize;

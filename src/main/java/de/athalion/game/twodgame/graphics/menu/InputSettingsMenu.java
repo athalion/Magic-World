@@ -1,6 +1,8 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Replacement;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
@@ -26,14 +28,14 @@ public class InputSettingsMenu implements MenuPage {
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
 
-        String text = "Einstellungen - Eingabe";
+        String text = Translations.get("menu.input.title");
         int x = gamePanel.tileSize;
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);
 
         maxCommandNum = 2;
 
-        text = "Controller aktivieren - " + (gamePanel.settings.enableController ? "Ein" : "Aus");
+        text = Translations.get("menu.input.controller", new Replacement("%a", (gamePanel.settings.enableController ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
         y = gamePanel.tileSize * 5;
         if (commandNum == 0) {
             g2.setColor(Color.ORANGE);

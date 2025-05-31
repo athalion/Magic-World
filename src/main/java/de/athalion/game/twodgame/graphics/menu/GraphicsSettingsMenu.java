@@ -1,6 +1,8 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Replacement;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
@@ -35,21 +37,21 @@ public class GraphicsSettingsMenu implements MenuPage {
         int y = gamePanel.tileSize * 3;
         g2.drawString(text, x, y);
 
-        text = "Vollbild - " + (gamePanel.settings.fullscreen ? "Ein" : "Aus");
+        text = Translations.get("menu.graphics.fullscreen", new Replacement("%a", (gamePanel.settings.fullscreen ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
         y = gamePanel.tileSize * 5;
         if (commandNum == 0) {
             g2.setColor(Color.ORANGE);
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Hardware Beschleunigung - " + (gamePanel.settings.hardwareAcceleration ? "Ein" : "Aus");
+        text = Translations.get("menu.graphics.hardware_acceleration", new Replacement("%a", (gamePanel.settings.hardwareAcceleration ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
         y = gamePanel.tileSize * 6;
         if (commandNum == 1) {
             g2.setColor(Color.ORANGE);
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Placeholder option";
+        text = Translations.get("menu.graphics.language");
         y = gamePanel.tileSize * 7;
         if (commandNum == 2) {
             g2.setColor(Color.ORANGE);

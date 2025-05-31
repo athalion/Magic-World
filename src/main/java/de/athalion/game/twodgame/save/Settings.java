@@ -13,7 +13,7 @@ public class Settings {
     public boolean enableController = true;
     public boolean enableSound = true;
     public int musicVolume = 7;
-    public int FXVolume = 9;
+    public int effectVolume = 9;
     public int environmentVolume = 5;
     public boolean fullscreen = true;
     public boolean hardwareAcceleration = true;

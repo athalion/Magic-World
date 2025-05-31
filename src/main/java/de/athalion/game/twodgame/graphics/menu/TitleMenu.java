@@ -1,6 +1,7 @@
 package de.athalion.game.twodgame.graphics.menu;
 
 import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
@@ -43,7 +44,7 @@ public class TitleMenu implements MenuPage {
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
 
-        String text = "NEUES SPIEL";
+        String text = Translations.get("menu.main.new");
         int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         int y = gamePanel.screenHeight / 2 + (gamePanel.tileSize);
         if (commandNum == 0) {
@@ -51,7 +52,7 @@ public class TitleMenu implements MenuPage {
         } else g2.setColor(Color.BLACK);
         g2.drawString(text, x, y);
 
-        text = "SPIEL LADEN";
+        text = Translations.get("menu.main.load");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.screenHeight / 2 + (gamePanel.tileSize * 2);
         if (commandNum == 1) {
@@ -59,7 +60,7 @@ public class TitleMenu implements MenuPage {
         } else g2.setColor(Color.BLACK);
         g2.drawString(text, x, y);
 
-        text = "EINSTELLUNGEN";
+        text = Translations.get("menu.main.settings");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.screenHeight / 2 + (gamePanel.tileSize * 3);
         if (commandNum == 2) {
@@ -67,7 +68,7 @@ public class TitleMenu implements MenuPage {
         } else g2.setColor(Color.BLACK);
         g2.drawString(text, x, y);
 
-        text = "BEENDEN";
+        text = Translations.get("menu.main.quit");
         x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
         y = gamePanel.screenHeight / 2 + (gamePanel.tileSize * 4);
         if (commandNum == 3) {

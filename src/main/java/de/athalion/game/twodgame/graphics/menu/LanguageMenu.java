@@ -15,7 +15,7 @@ public class LanguageMenu implements MenuPage {
 
     GamePanel gamePanel;
 
-    int commandNum = 0;
+    int commandNum;
     int maxCommandNum;
 
     List<Language> languages;
@@ -25,6 +25,7 @@ public class LanguageMenu implements MenuPage {
         this.gamePanel = gamePanel;
 
         languages = Languages.list();
+        commandNum = languages.indexOf(Translations.getCurrentLanguage());
         maxCommandNum = languages.size() - 1;
     }
 
@@ -47,10 +48,10 @@ public class LanguageMenu implements MenuPage {
             if (x > 3 * gamePanel.tileSize && x < gamePanel.screenHeight - (1.5 * gamePanel.tileSize)) {
                 if (i == commandNum) {
                     g2.setColor(Color.ORANGE);
-                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 64F));
+                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
                 } else {
                     g2.setColor(Color.WHITE);
-                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
                 }
                 x = RenderUtils.getXForCenteredText(language.getName(), g2, gamePanel);
                 g2.drawString(language.getName(), x, y);
