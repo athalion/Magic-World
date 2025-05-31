@@ -96,6 +96,8 @@ public class GamePanel extends JPanel implements Runnable {
         setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
 
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::quit));
     }
 
     public void setFullScreen(boolean fullScreen, GraphicsDevice targetDevice) {
@@ -486,7 +488,6 @@ public class GamePanel extends JPanel implements Runnable {
         settings.enableController = false;
         keyHandler.quitGamepad();
         Logger.saveLog();
-        System.exit(0);
     }
 
     public Scheduler getScheduler() {

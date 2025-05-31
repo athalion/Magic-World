@@ -105,7 +105,7 @@ public class TitleMenu implements MenuPage {
                     newMenuPage = new SettingsMenu(gamePanel);
                     break;
                 case 3:
-                    gamePanel.quit();
+                    System.exit(0);
                     break;
             }
 
