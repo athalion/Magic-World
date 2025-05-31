@@ -44,7 +44,7 @@ public class Logger {
     }
 
     public static void saveLog() {
-        File logDir = new File(System.getProperty("user.dir") + File.separator + "logs");
+        File logDir = new File(System.getProperty("user.dir"), "logs");
         if (!logDir.exists()) logDir.mkdirs();
         try (PrintWriter printWriter = new PrintWriter(new File(logDir, logSession.name() + ".log"))) {
             for (String logEntry : logSession.logEntries()) {

@@ -13,7 +13,10 @@ public class LogSession {
 
     public LogSession() {
         logEntries = new ArrayList<>();
-        name = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)).replaceAll(" ", "-");
+        name = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
+                .replaceAll(" ", "-")
+                .replaceAll(",", "")
+                .replaceAll(":", "-");
     }
 
     public void addEntry(String s) {
