@@ -11,8 +11,6 @@ import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.schedule.Scheduler;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.CollisionChecker;
-import de.athalion.game.twodgame.utility.Requirements;
-import de.athalion.game.twodgame.utility.UtilityTool;
 import de.athalion.game.twodgame.world.WorldManager;
 import de.athalion.game.twodgame.world.tile.TileManager;
 
@@ -21,7 +19,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.List;
 
@@ -347,24 +344,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void loadGame(String name) {
         worldManager.load(System.getProperty("user.dir") + "/saves/" + name);
-    }
-
-    public void newGame(String name) {
-
-        createSaveDir();
-        File file = new File(System.getProperty("user.dir") + "/saves", name);
-
-        if (!file.exists()) {
-            file.mkdir();
-            try {
-                UtilityTool.copyFolder(new File(Requirements.notNull(getClass().getResource("/new_game/"), "Failed creating new game. /new_game/ is null!").toURI().getPath()), file);
-            } catch (URISyntaxException e) {
-                Logger.error("Error while copying game files to new game " + name + ": " + e.getMessage());
-                Logger.stackTrace(e.getStackTrace());
-            }
-            loadGame(name);
-        }
-
     }
 
     public void simpleDialog(String dialog) {

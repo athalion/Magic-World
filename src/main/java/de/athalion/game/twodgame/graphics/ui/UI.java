@@ -9,6 +9,7 @@ import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.object.OBJ_Heart;
 import de.athalion.game.twodgame.sound.Sound;
 import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.utility.Requirements;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -66,8 +67,8 @@ public class UI {
 
         try {
             Logger.log("Loading Font...");
-            InputStream is = getClass().getResourceAsStream("/font/atlantis.ttf");
-            atlantis = Font.createFont(Font.TRUETYPE_FONT, is);
+            InputStream inputStream = getClass().getResourceAsStream("/font/atlantis.ttf");
+            atlantis = Font.createFont(Font.TRUETYPE_FONT, Requirements.notNull(inputStream, "Could not load custom Font because /font/atlantis.ttf is null!"));
         } catch (FontFormatException | IOException e) {
             Logger.error("Error reading custom font: " + e.getMessage());
             Logger.stackTrace(e.getStackTrace());
@@ -147,7 +148,6 @@ public class UI {
 
         //reset
         x = gamePanel.tileSize / 2;
-        y = gamePanel.tileSize / 2;
         i = 0;
 
         //draw current life
@@ -445,12 +445,10 @@ public class UI {
         //cursor
         int cursorX = slotXStart + (slotSize * slotCol);
         int cursorY = slotYStart + (slotSize * slotRow);
-        int cursorWidth = slotSize;
-        int cursorHeight = slotSize;
 
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(3));
-        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+        g2.drawRoundRect(cursorX, cursorY, slotSize, slotSize, 10, 10);
 
         //description
         frameX += (int) (gamePanel.tileSize * 6.2);
@@ -560,11 +558,8 @@ public class UI {
         BufferedImage image = null;
         InputStream inputStream = getClass().getResourceAsStream(path + ".png");
 
-        if (inputStream == null)
-            Logger.error("Cannot load image because " + path + " is null!");
-
         try {
-            image = ImageIO.read(inputStream);
+            image = ImageIO.read(Requirements.notNull(inputStream, "Cannot load image because " + path + " is null!"));
         } catch (IOException e) {
             Logger.error("Error reading texture " + path + ": " + e.getMessage());
             Logger.stackTrace(e.getStackTrace());

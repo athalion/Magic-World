@@ -5,7 +5,7 @@ import de.athalion.game.twodgame.main.GamePanel;
 
 public class CollisionChecker {
 
-    GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
     public CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -34,7 +34,7 @@ public class CollisionChecker {
                 entityTopRow = (entityTopWorldY - entity.speed) / gamePanel.tileSize;
                 tileNum1 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityRightCol][entityTopRow];
-                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum1).collision)
+                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum2).collision)
                     entity.collisionOn = true;
 
                 break;
@@ -43,7 +43,7 @@ public class CollisionChecker {
                 entityBottomRow = (entityBottomWorldY + entity.speed) / gamePanel.tileSize;
                 tileNum1 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityLeftCol][entityBottomRow];
                 tileNum2 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityRightCol][entityBottomRow];
-                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum1).collision)
+                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum2).collision)
                     entity.collisionOn = true;
 
                 break;
@@ -52,7 +52,7 @@ public class CollisionChecker {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / gamePanel.tileSize;
                 tileNum1 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityLeftCol][entityBottomRow];
-                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum1).collision)
+                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum2).collision)
                     entity.collisionOn = true;
 
                 break;
@@ -61,7 +61,7 @@ public class CollisionChecker {
                 entityRightCol = (entityRightWorldX + entity.speed) / gamePanel.tileSize;
                 tileNum1 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityRightCol][entityTopRow];
                 tileNum2 = gamePanel.worldManager.getCurrentWorld().mapTileNumber[entityRightCol][entityBottomRow];
-                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum1).collision)
+                if (gamePanel.tileManager.getTileSet().getTile(tileNum1).collision || gamePanel.tileManager.getTileSet().getTile(tileNum2).collision)
                     entity.collisionOn = true;
 
                 break;

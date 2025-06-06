@@ -352,42 +352,24 @@ public class Player extends Entity {
 
         if (entity != null) {
             if (!entity.invincible) {
+                gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
                 if (!isFromProjectile) {
-                    gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
-
                     int damage = UtilityTool.calculateDamage(this, entity);
-
                     entity.life -= damage;
-
                     gamePanel.ui.addMessage("Damage: " + damage);
-
-                    entity.invincible = true;
-                    entity.damageReaction();
-                    gamePanel.ui.currentTarget = entity;
-                    gamePanel.ui.drawTarget();
-                    if (entity.life <= 0) {
-                        entity.dying = true;
-                        gamePanel.ui.addMessage("You killed: " + entity.name);
-                        gamePanel.ui.addMessage("EXP: " + entity.exp);
-                        exp += entity.exp;
-                    }
                 } else {
-                    gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
-
                     entity.life -= currentWeapon.projectile.attack;
-
                     gamePanel.ui.addMessage("Damage: " + currentWeapon.projectile.attack);
-
-                    entity.invincible = true;
-                    entity.damageReaction();
-                    gamePanel.ui.currentTarget = entity;
-                    gamePanel.ui.drawTarget();
-                    if (entity.life <= 0) {
-                        entity.dying = true;
-                        gamePanel.ui.addMessage("You killed: " + entity.name);
-                        gamePanel.ui.addMessage("EXP: " + entity.exp);
-                        exp += entity.exp;
-                    }
+                }
+                entity.invincible = true;
+                entity.damageReaction();
+                gamePanel.ui.currentTarget = entity;
+                gamePanel.ui.drawTarget();
+                if (entity.life <= 0) {
+                    entity.dying = true;
+                    gamePanel.ui.addMessage("You killed: " + entity.name);
+                    gamePanel.ui.addMessage("EXP: " + entity.exp);
+                    exp += entity.exp;
                 }
 
             }

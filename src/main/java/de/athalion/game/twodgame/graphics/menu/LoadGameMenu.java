@@ -16,7 +16,7 @@ public class LoadGameMenu implements MenuPage {
     GamePanel gamePanel;
 
     int commandNum = 0;
-    int maxCommandNum = 0;
+    int maxCommandNum;
 
     List<String> saves;
     float displayY = 0;
@@ -30,18 +30,15 @@ public class LoadGameMenu implements MenuPage {
 
     @Override
     public void draw(Graphics2D g2) {
-
         RenderUtils.fillScreenBlack(1F, g2, gamePanel);
-
-        int y = gamePanel.tileSize;
-        int width = gamePanel.tileSize * 7;
-        int height = gamePanel.tileSize;
-        int x = MenuUtils.getXForCenteredSomething(width, gamePanel);
 
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 46F));
+
         String text = Translations.get("menu.load.title");
-        g2.drawString(text, RenderUtils.getXForCenteredText(text, g2, gamePanel), y);
+        int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
+        int y = gamePanel.tileSize;
+        g2.drawString(text, x, y);
 
         displayY += ((-commandNum * gamePanel.tileSize) - displayY) / 16;
         for (int i = 0; i < saves.size(); i++) {
@@ -70,12 +67,10 @@ public class LoadGameMenu implements MenuPage {
         }
 
         MenuUtils.drawControlTips(g2, gamePanel, "[A] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
-
     }
 
     @Override
     public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
-
         MenuPage newMenuPage = null;
 
         if (keyState.isMenuUpPressed()) {
@@ -96,7 +91,6 @@ public class LoadGameMenu implements MenuPage {
         }
 
         return newMenuPage;
-
     }
 
 }

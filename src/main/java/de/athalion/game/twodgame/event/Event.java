@@ -9,8 +9,8 @@ public class Event {
 
     String id;
     boolean canTrigger;
-    Direction requiredDirection;
-    Rectangle eventRectangle;
+    final Direction requiredDirection;
+    final Rectangle eventRectangle;
     boolean cooldown;
     int calls = 0;
     Predicate<Event> condition;

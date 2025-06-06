@@ -30,7 +30,7 @@ public class OBJ_RedPotion extends Item {
 
     public void use(Entity entity) {
 
-        gamePanel.simpleDialog("Als du den Trank trinkts, kannst du spühren wie neue Energie durch deinen Körper ströhmt.");
+        gamePanel.simpleDialog("Als du den Trank trinkst, kannst du spüren wie neue Energie durch deinen Körper strömt.");
         gamePanel.playSoundEffect(Sound.EFFECT_POWERUP);
 
         entity.life += 5;
