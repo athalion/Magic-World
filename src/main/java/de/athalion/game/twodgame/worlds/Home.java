@@ -6,7 +6,8 @@ import de.athalion.game.twodgame.world.World;
 public class Home extends World {
 
     public Home(GamePanel gamePanel) {
-        super(gamePanel, "Zuhause");
+        super(gamePanel, "home");
+        setDisplayName("Zuhause");
     }
 
 }

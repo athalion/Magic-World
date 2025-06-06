@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GraphicsSettingsMenu implements MenuPage {
 
-    GamePanel gamePanel;
+    final GamePanel gamePanel;
 
     int commandNum = 0;
     int maxCommandNum = 2;

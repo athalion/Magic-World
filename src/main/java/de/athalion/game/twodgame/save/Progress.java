@@ -99,17 +99,15 @@ public class Progress {
 
         public JsonPrimitive toJsonPrimitive() {
             JsonPrimitive jsonPrimitive;
-            if (object instanceof String) {
-                jsonPrimitive = new JsonPrimitive((String) object);
-            } else if (object instanceof Integer) {
-                jsonPrimitive = new JsonPrimitive((Integer) object);
-            } else if (object instanceof Double) {
-                jsonPrimitive = new JsonPrimitive((Double) object);
-            } else if (object instanceof Boolean) {
-                jsonPrimitive = new JsonPrimitive((Boolean) object);
-            } else {
-                jsonPrimitive = null;
-                Logger.warn("Tried to convert progress value of unknown type: " + object.toString() + "!");
+            switch (object) {
+                case String s -> jsonPrimitive = new JsonPrimitive(s);
+                case Integer i -> jsonPrimitive = new JsonPrimitive(i);
+                case Double v -> jsonPrimitive = new JsonPrimitive(v);
+                case Boolean b -> jsonPrimitive = new JsonPrimitive(b);
+                default -> {
+                    jsonPrimitive = null;
+                    Logger.warn("Tried to convert progress value of unknown type: " + object + "!");
+                }
             }
             return jsonPrimitive;
         }

@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public abstract class Entity {
 
-    GamePanel gamePanel;
+    final GamePanel gamePanel;
 
     public EntityType type;
 
@@ -67,7 +67,7 @@ public abstract class Entity {
     public Item currentWeapon;
     public Item currentOffhandItem;
 
-    public String[][][] dialogues = new String[100][100][4];
+    public final String[][][] dialogues = new String[100][100][4];
     public int dialogueSet = 0;
     public int dialoguePage = 0;
 

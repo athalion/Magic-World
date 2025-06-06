@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventHandler {
 
-    GamePanel gamePanel;
+    final GamePanel gamePanel;
     List<Event> eventList = new ArrayList<>();
 
     public EventHandler(GamePanel gamePanel) {

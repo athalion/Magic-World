@@ -14,7 +14,7 @@ public class EnvironmentEffects {
 
     private final GamePanel gamePanel;
 
-    List<Vector2> rainPositions = new ArrayList<>();
+    final List<Vector2> rainPositions = new ArrayList<>();
 
     public EnvironmentEffects(GamePanel gamePanel) {
         this.gamePanel = gamePanel;

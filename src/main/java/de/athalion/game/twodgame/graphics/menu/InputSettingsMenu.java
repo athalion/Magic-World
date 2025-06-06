@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 
 public class InputSettingsMenu implements MenuPage {
 
-    GamePanel gamePanel;
+    final GamePanel gamePanel;
 
     int commandNum = 0;
     int maxCommandNum = 2;

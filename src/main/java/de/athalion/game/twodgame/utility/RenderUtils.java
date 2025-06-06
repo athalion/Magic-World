@@ -25,11 +25,8 @@ public class RenderUtils {
         BufferedImage image = null;
         InputStream inputStream = aClass.getResourceAsStream(path + ".png");
 
-        if (inputStream == null)
-            Logger.error("Cannot load image because " + path + " is null!");
-
         try {
-            image = ImageIO.read(inputStream);
+            image = ImageIO.read(Requirements.notNull(inputStream, "Cannot load image because " + path + " is null!"));
         } catch (IOException e) {
             Logger.error("Error reading texture " + path + ": " + e.getMessage());
             Logger.stackTrace(e.getStackTrace());

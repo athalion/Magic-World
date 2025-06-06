@@ -85,6 +85,18 @@ public abstract class World {
         }
     }
 
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
+
+    public void setCameraFixed(boolean cameraFixed) {
+        this.cameraFixed = cameraFixed;
+    }
+
     public String getName() {
         return name;
     }
