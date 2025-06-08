@@ -9,7 +9,7 @@ import de.athalion.game.twodgame.input.KeyHandler;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.schedule.Scheduler;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 import de.athalion.game.twodgame.utility.CollisionChecker;
 import de.athalion.game.twodgame.world.WorldManager;
 import de.athalion.game.twodgame.world.tile.TileManager;
@@ -58,9 +58,9 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyHandler = new KeyHandler(this);
     public Settings settings = new Settings();
 
-    Sound music = new Sound();
-    Sound soundEffect = new Sound();
-    Sound environment = new Sound();
+    SoundPlayer music = new SoundPlayer();
+    SoundPlayer soundEffect = new SoundPlayer();
+    SoundPlayer environment = new SoundPlayer();
     double musicTimer = 0;
     boolean musicEnd = false;
     boolean musicPlaying = false;
@@ -238,7 +238,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
             if (logoTimer >= 900) {
                 gameState = GameState.TITLE;
-                playMusic(Sound.MUSIC_MENU, true);
+                playMusic(SoundPlayer.MUSIC_MENU, true);
                 logoTimer = 0;
             }
         }

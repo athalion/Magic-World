@@ -6,7 +6,7 @@ import de.athalion.game.twodgame.item.Item;
 import de.athalion.game.twodgame.item.WeaponType;
 import de.athalion.game.twodgame.main.*;
 import de.athalion.game.twodgame.object.*;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 import de.athalion.game.twodgame.utility.UtilityTool;
 import de.athalion.game.twodgame.world.World;
 
@@ -195,7 +195,7 @@ public class Player extends Entity {
 
                             inventory.remove(item);
 
-                            gamePanel.playSoundEffect(Sound.EFFECT_SWING_WEAPON);
+                            gamePanel.playSoundEffect(SoundPlayer.EFFECT_SWING_WEAPON);
                             gamePanel.doControllerVibration(0.2f, 0.2f, 100);
                             attacking = true;
                             spriteCounter = 0;
@@ -205,7 +205,7 @@ public class Player extends Entity {
                     }
                 } else {
 
-                    gamePanel.playSoundEffect(Sound.EFFECT_SWING_WEAPON);
+                    gamePanel.playSoundEffect(SoundPlayer.EFFECT_SWING_WEAPON);
                     gamePanel.doControllerVibration(0.2f, 0.2f, 100);
                     attacking = true;
                     spriteCounter = 0;
@@ -308,7 +308,7 @@ public class Player extends Entity {
             if (inventory.size() != inventorySize) {
 
                 inventory.add((Item) gamePanel.worldManager.getCurrentWorld().getObjects().toArray(Entity[]::new)[index]);
-                gamePanel.playSoundEffect(Sound.EFFECT_COIN);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_COIN);
 
                 text = "You picket up " + gamePanel.worldManager.getCurrentWorld().getObjects().toArray(Entity[]::new)[index].name + "!";
 
@@ -337,7 +337,7 @@ public class Player extends Entity {
         if (entity != null) {
 
             if (!invincible && entity.dyingTimer == 0) {
-                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVE_DAMAGE);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_RECEIVE_DAMAGE);
                 gamePanel.doControllerVibration(0.5f, 0.5f, 700);
 
                 life -= UtilityTool.calculateDamage(entity, this);
@@ -352,7 +352,7 @@ public class Player extends Entity {
 
         if (entity != null) {
             if (!entity.invincible) {
-                gamePanel.playSoundEffect(Sound.EFFECT_HIT_MONSTER);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_HIT_MONSTER);
                 if (!isFromProjectile) {
                     int damage = UtilityTool.calculateDamage(this, entity);
                     entity.life -= damage;
@@ -390,7 +390,7 @@ public class Player extends Entity {
             attack = getAttack();
             defence = getDefence();
 
-            gamePanel.playSoundEffect(Sound.EFFECT_LEVEL_UP);
+            gamePanel.playSoundEffect(SoundPlayer.EFFECT_LEVEL_UP);
 
             gamePanel.ui.currentSimpleDialog = "Du bist jetzt Level " + level + "!";
             gamePanel.gameState = GameState.MESSAGE;

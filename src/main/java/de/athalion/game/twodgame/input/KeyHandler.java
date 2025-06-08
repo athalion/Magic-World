@@ -4,7 +4,7 @@ import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -202,25 +202,25 @@ public class KeyHandler implements KeyListener {
         if (keyState.isMenuUpPressed()) {
             if (gamePanel.ui.slotRow != 0) {
                 gamePanel.ui.slotRow--;
-                gamePanel.playSoundEffect(Sound.EFFECT_CURSOR);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuLeftPressed()) {
             if (gamePanel.ui.slotCol != 0) {
                 gamePanel.ui.slotCol--;
-                gamePanel.playSoundEffect(Sound.EFFECT_CURSOR);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuDownPressed()) {
             if (gamePanel.ui.slotRow != 3) {
                 gamePanel.ui.slotRow++;
-                gamePanel.playSoundEffect(Sound.EFFECT_CURSOR);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuRightPressed()) {
             if (gamePanel.ui.slotCol != 4) {
                 gamePanel.ui.slotCol++;
-                gamePanel.playSoundEffect(Sound.EFFECT_CURSOR);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuOKPressed()) {

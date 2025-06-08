@@ -7,7 +7,7 @@ import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.object.OBJ_Heart;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 import de.athalion.game.twodgame.utility.RenderUtils;
 import de.athalion.game.twodgame.utility.Requirements;
 
@@ -236,7 +236,7 @@ public class UI {
                 combinedText = combinedText + s;
                 currentDialog = combinedText;
                 charIndex++;
-                gamePanel.playSoundEffect(Sound.EFFECT_TEXT);
+                gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
             }
 
             if (gamePanel.keyHandler.enterPressed) {
@@ -338,7 +338,7 @@ public class UI {
             combinedText = combinedText + s;
             currentSimpleDialog = combinedText;
             charIndex++;
-            if (!silent) gamePanel.playSoundEffect(Sound.EFFECT_TEXT);
+            if (!silent) gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
         }
 
         for (String line : currentSimpleDialog.split("\n")) {
@@ -386,7 +386,7 @@ public class UI {
             combinedText = combinedText + s;
             message = combinedText;
             charIndex++;
-            gamePanel.playSoundEffect(Sound.EFFECT_TEXT);
+            gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
         }
 
         for (String line : message.split("\n")) {

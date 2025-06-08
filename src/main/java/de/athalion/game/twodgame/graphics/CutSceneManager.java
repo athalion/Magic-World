@@ -3,7 +3,7 @@ package de.athalion.game.twodgame.graphics;
 import de.athalion.game.twodgame.graphics.ui.UI;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
 import java.awt.*;
@@ -471,7 +471,7 @@ public class CutSceneManager {
             fillScreenBlack(alpha);
 
             if (alpha == 0f) {
-                if (gamePanel.scheduleMusic(Sound.MUSIC_DEMON_BATTLE_OUTRO, false)) {
+                if (gamePanel.scheduleMusic(SoundPlayer.MUSIC_DEMON_BATTLE_OUTRO, false)) {
                     scenePhase++;
                 }
             } else gamePanel.keyHandler.enterPressed = false;
@@ -492,7 +492,7 @@ public class CutSceneManager {
 
             if (alpha == 1f) {
                 scenePhase++;
-                gamePanel.playMusic(Sound.MUSIC_DEMON_BATTLE_SMALL, false);
+                gamePanel.playMusic(SoundPlayer.MUSIC_DEMON_BATTLE_SMALL, false);
             }
 
         }

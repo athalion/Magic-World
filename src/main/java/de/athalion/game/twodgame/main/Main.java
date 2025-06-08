@@ -1,7 +1,7 @@
 package de.athalion.game.twodgame.main;
 
 import de.athalion.game.twodgame.logs.Logger;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundPlayer;
 import de.athalion.game.twodgame.utility.Requirements;
 
 import javax.imageio.ImageIO;
@@ -33,7 +33,7 @@ public class Main {
         logo = new JLabel("", icon, SwingConstants.CENTER);
 
         gamePanel.add(logo);
-        gamePanel.playSoundEffect(Sound.EFFECT_LOGO);
+        gamePanel.playSoundEffect(SoundPlayer.EFFECT_LOGO);
 
         BufferedImage cursorImage = null;
         try {
