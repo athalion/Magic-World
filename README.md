@@ -37,7 +37,7 @@ You can get the latest release [here](https://finnkuusisto.github.io/TinySound/r
 Install TinySound in your local Maven repository by running:
 
 ```bash
-mvn install:install-file -Dfile=TinySound-1.1.1.jar -DgroupId=kuusisto -DartifactId=tinysound -Dversion=1.1.1 -Dpackaging=jar
+mvn install:install-file -Dfile=tinysound-1.1.1.jar -DgroupId=kuusisto -DartifactId=tinysound -Dversion=1.1.1 -Dpackaging=jar
 ```
 
 ### 3. Building
