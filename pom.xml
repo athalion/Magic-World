@@ -44,6 +44,12 @@
             <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>kuusisto</groupId>
+            <artifactId>tinysound</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>

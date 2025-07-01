@@ -5,6 +5,7 @@ import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.save.SaveStateManager;
+import de.athalion.game.twodgame.sound.SoundSystem;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
 import java.awt.*;
@@ -83,7 +84,7 @@ public class LoadGameMenu implements MenuPage {
         }
         if (keyState.isMenuOKPressed()) {
             gamePanel.loadGame(saves.get(commandNum));
-            gamePanel.stopMusic();
+            SoundSystem.stopMusic();
             gamePanel.gameState = GameState.PLAY;
         }
         if (keyState.isMenuBackPressed()) {

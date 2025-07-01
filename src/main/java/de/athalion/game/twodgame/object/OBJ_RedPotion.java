@@ -5,7 +5,8 @@ import de.athalion.game.twodgame.entity.EntityType;
 import de.athalion.game.twodgame.item.EquipType;
 import de.athalion.game.twodgame.item.Item;
 import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.sound.Sounds;
 
 public class OBJ_RedPotion extends Item {
 
@@ -31,7 +32,7 @@ public class OBJ_RedPotion extends Item {
     public void use(Entity entity) {
 
         gamePanel.simpleDialog("Als du den Trank trinkst, kannst du spüren wie neue Energie durch deinen Körper strömt.");
-        gamePanel.playSoundEffect(Sound.EFFECT_POWERUP);
+        SoundSystem.playSound(Sounds.EFFECT_POWERUP);
 
         entity.life += 5;
         if (entity.life > entity.maxLife) entity.life = entity.maxLife;

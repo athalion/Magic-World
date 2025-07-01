@@ -6,7 +6,8 @@ import de.athalion.game.twodgame.main.Direction;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.particle.Particle;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.sound.Sounds;
 import de.athalion.game.twodgame.utility.UtilityTool;
 
 import javax.imageio.ImageIO;
@@ -131,7 +132,7 @@ public abstract class Entity {
 
         if (this.type == EntityType.MONSTER && contactPlayer && this.dyingTimer == 0) {
             if (!gamePanel.player.invincible) {
-                gamePanel.playSoundEffect(Sound.EFFECT_RECEIVE_DAMAGE);
+                SoundSystem.playSound(Sounds.EFFECT_RECEIVE_DAMAGE);
                 gamePanel.doControllerVibration(0.5f, 0.5f, 700);
 
                 gamePanel.player.life -= UtilityTool.calculateDamage(this, gamePanel.player);

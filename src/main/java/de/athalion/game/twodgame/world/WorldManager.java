@@ -1,6 +1,8 @@
 package de.athalion.game.twodgame.world;
 
 import de.athalion.game.twodgame.main.GamePanel;
+import de.athalion.game.twodgame.sound.Sounds;
+import de.athalion.game.twodgame.sound.SoundSystem;
 
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public class WorldManager {
     }
 
     public void changeWorld(World world) {
-        gamePanel.stopEnvironmentEffect();
+        SoundSystem.stopSound(Sounds.Type.ENVIRONMENT);
         currentWorld = world;
         gamePanel.tileManager.setTargetZoom(world.zoom);
     }

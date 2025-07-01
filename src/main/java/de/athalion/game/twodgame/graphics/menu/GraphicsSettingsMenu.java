@@ -26,7 +26,6 @@ public class GraphicsSettingsMenu implements MenuPage {
 
     @Override
     public void draw(Graphics2D g2) {
-
         RenderUtils.fillScreenBlack(1F, g2, gamePanel);
 
         g2.setColor(Color.WHITE);
@@ -59,12 +58,10 @@ public class GraphicsSettingsMenu implements MenuPage {
         g2.drawString(text, x, y);
 
         MenuUtils.drawControlTips(g2, gamePanel, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
-
     }
 
     @Override
     public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
-
         MenuPage newMenuPage = null;
 
         if (keyState.isMenuUpPressed()) {
@@ -134,7 +131,6 @@ public class GraphicsSettingsMenu implements MenuPage {
         }
 
         return newMenuPage;
-
     }
 
 }

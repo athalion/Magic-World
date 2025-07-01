@@ -9,7 +9,8 @@ import de.athalion.game.twodgame.input.KeyHandler;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.schedule.Scheduler;
-import de.athalion.game.twodgame.sound.Sound;
+import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.sound.Sounds;
 import de.athalion.game.twodgame.utility.CollisionChecker;
 import de.athalion.game.twodgame.world.WorldManager;
 import de.athalion.game.twodgame.world.tile.TileManager;
@@ -42,8 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
     private int drawWidth;
     private int drawHeight;
 
-    public int logoTimer = 0;
-
     GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     BufferedImage tempScreen;
     BufferedImage tempUIImage;
@@ -57,16 +56,6 @@ public class GamePanel extends JPanel implements Runnable {
     public WorldManager worldManager = new WorldManager(this);
     public KeyHandler keyHandler = new KeyHandler(this);
     public Settings settings = new Settings();
-
-    Sound music = new Sound();
-    Sound soundEffect = new Sound();
-    Sound environment = new Sound();
-    double musicTimer = 0;
-    boolean musicEnd = false;
-    boolean musicPlaying = false;
-    double environmentEffectTimer = 0;
-    boolean environmentEffectEnd = false;
-    boolean environmentEffectPlaying = false;
 
     public UI ui = new UI(this);
     EnvironmentEffects environmentEffects = new EnvironmentEffects(this);
@@ -90,8 +79,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         settings = Settings.loadSettings();
         Settings.applySettings(settings);
+        SoundSystem.init();
         setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
-
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::quit));
@@ -232,46 +221,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (gameState == GameState.LOGO) {
-            logoTimer++;
-            if (logoTimer > 800) {
-                remove(Main.logo);
-            }
-            if (logoTimer >= 900) {
+            scheduler.runTaskLater(() -> remove(Main.logo), 800);
+            scheduler.runTaskLater(() -> {
                 gameState = GameState.TITLE;
-                playMusic(Sound.MUSIC_MENU, true);
-                logoTimer = 0;
-            }
-        }
-
-        musicEnd = false;
-        if (musicPlaying) {
-            musicTimer -= (double) 1 / 60;
-            if (musicTimer <= 0) {
-                if (music.isLooped) {
-                    playMusic(music.file, true);
-                } else if (!music.next.isEmpty()) {
-                    playMusic(music.next, music.nextLooped);
-                    music.next = "";
-                }
-
-                musicEnd = true;
-            }
-        }
-
-        environmentEffectEnd = false;
-        if (environmentEffectPlaying) {
-            environmentEffectTimer -= (double) 1 / 60;
-
-            if (environmentEffectTimer <= 0) {
-                if (environment.isLooped) {
-                    playEnvironmentEffect(environment.file, true);
-                } else if (!environment.next.isEmpty()) {
-                    playEnvironmentEffect(environment.next, environment.nextLooped);
-                    environment.next = "";
-                }
-
-                environmentEffectEnd = true;
-            }
+                SoundSystem.playSound(Sounds.MUSIC_MENU);
+            }, 900);
         }
 
     }
@@ -360,87 +314,6 @@ public class GamePanel extends JPanel implements Runnable {
         Settings.saveSettings(settings);
     }
 
-    public void updateVolume() {
-        if (settings.enableSound) {
-            music.updateVolume(settings.musicVolume);
-            soundEffect.updateVolume(settings.effectVolume);
-            environment.updateVolume(settings.environmentVolume);
-        } else {
-            music.updateVolume(0);
-            soundEffect.updateVolume(0);
-            environment.updateVolume(0);
-        }
-    }
-
-    public void playMusicIntro(String sound, String next, boolean looped) {
-        playMusic(sound, false);
-
-        music.next = next;
-        music.nextLooped = looped;
-    }
-
-    public void playMusic(String sound, boolean looped) {
-        music.setFile(sound);
-        music.setLooped(looped);
-        updateVolume();
-        music.play();
-
-        musicPlaying = true;
-
-        musicTimer = (double) music.getLength() / 1000000;
-    }
-
-    public void stopMusic() {
-        music.stop();
-        music.setLooped(false);
-
-        musicPlaying = false;
-    }
-
-    public boolean scheduleMusic(String sound, boolean looped) {
-        if (musicEnd) {
-            stopMusic();
-            playMusic(sound, looped);
-            return true;
-        } else return false;
-    }
-
-    public void playEnvironmentEffect(String sound, boolean looped) {
-        environment.setFile(sound);
-        environment.setLooped(looped);
-        updateVolume();
-        environment.play();
-
-        environmentEffectPlaying = true;
-
-        environmentEffectTimer = (double) environment.getLength() / 1000000;
-    }
-
-    public void stopEnvironmentEffect() {
-        environment.stop();
-        environment.setLooped(false);
-
-        environmentEffectPlaying = false;
-    }
-
-    public boolean scheduleEnvironmentEffect(String sound, boolean looped) {
-        if (environmentEffectEnd) {
-            stopEnvironmentEffect();
-            playEnvironmentEffect(sound, looped);
-            return true;
-        } else return false;
-    }
-
-    public void playSoundEffect(String sound) {
-        soundEffect.setFile(sound);
-        soundEffect.updateVolume(settings.effectVolume);
-        soundEffect.play();
-    }
-
-    public void stopSoundEffect() {
-        soundEffect.stop();
-    }
-
     public void doControllerVibration(float leftMagnitude, float rightMagnitude, int duration) {
         for (int i = 0; i < keyHandler.controllers.getNumControllers(); i++) {
             keyHandler.controllers.doVibration(i, leftMagnitude, rightMagnitude, duration);
@@ -464,6 +337,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void quit() {
         Logger.log("Exiting...");
         saveSettings();
+        SoundSystem.shutdown();
         settings.enableController = false;
         keyHandler.quitGamepad();
         Logger.saveLog();
