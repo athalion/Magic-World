@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.entity;
 
+import de.athalion.game.twodgame.input.ControllerSystem;
 import de.athalion.game.twodgame.input.KeyHandler;
 import de.athalion.game.twodgame.item.EquipType;
 import de.athalion.game.twodgame.item.Item;
@@ -199,7 +200,7 @@ public class Player extends Entity {
                             inventory.remove(item);
 
                             SoundSystem.playSound(Sounds.EFFECT_SWING_WEAPON);
-                            gamePanel.doControllerVibration(0.2f, 0.2f, 100);
+                            ControllerSystem.doVibration(0.2f, 0.2f, 100);
                             attacking = true;
                             spriteCounter = 0;
 
@@ -209,7 +210,7 @@ public class Player extends Entity {
                 } else {
 
                     SoundSystem.playSound(Sounds.EFFECT_SWING_WEAPON);
-                    gamePanel.doControllerVibration(0.2f, 0.2f, 100);
+                    ControllerSystem.doVibration(0.2f, 0.2f, 100);
                     attacking = true;
                     spriteCounter = 0;
 
@@ -341,7 +342,7 @@ public class Player extends Entity {
 
             if (!invincible && entity.dyingTimer == 0) {
                 SoundSystem.playSound(Sounds.EFFECT_RECEIVE_DAMAGE);
-                gamePanel.doControllerVibration(0.5f, 0.5f, 700);
+                ControllerSystem.doVibration(0.5f, 0.5f, 700);
 
                 life -= UtilityTool.calculateDamage(entity, this);
                 invincible = true;

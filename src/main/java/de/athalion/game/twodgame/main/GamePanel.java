@@ -5,7 +5,9 @@ import de.athalion.game.twodgame.entity.Player;
 import de.athalion.game.twodgame.entity.Projectile;
 import de.athalion.game.twodgame.graphics.EnvironmentEffects;
 import de.athalion.game.twodgame.graphics.ui.UI;
+import de.athalion.game.twodgame.input.ControllerSystem;
 import de.athalion.game.twodgame.input.KeyHandler;
+import de.athalion.game.twodgame.input.KeyState;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.schedule.Scheduler;
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         settings = Settings.loadSettings();
         Settings.applySettings(settings);
         SoundSystem.init();
+        ControllerSystem.init();
         setFullScreen(settings.fullscreen, GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[settings.screen]);
         tempScreen = graphicsConfiguration.createCompatibleImage(screenWidth, screenHeight, Transparency.TRANSLUCENT);
 
@@ -155,9 +158,6 @@ public class GamePanel extends JPanel implements Runnable {
 
             boolean updated = false;
             while (delta >= 1) {
-                if (settings.enableController) {
-                    keyHandler.checkControllerInput();
-                }
                 update();
                 delta--;
                 updated = true;
@@ -182,6 +182,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+
+        if (settings.enableController) {
+            KeyState keyState = ControllerSystem.checkInput();
+            if (keyState != null) keyHandler.processControllerInput(keyState);
+        }
 
         scheduler.tick();
 
@@ -314,12 +319,6 @@ public class GamePanel extends JPanel implements Runnable {
         Settings.saveSettings(settings);
     }
 
-    public void doControllerVibration(float leftMagnitude, float rightMagnitude, int duration) {
-        for (int i = 0; i < keyHandler.controllers.getNumControllers(); i++) {
-            keyHandler.controllers.doVibration(i, leftMagnitude, rightMagnitude, duration);
-        }
-    }
-
     public void doScreenShake(int amount, int duration) {
         Random random = new Random();
         double x = tileManager.cameraX;
@@ -339,7 +338,7 @@ public class GamePanel extends JPanel implements Runnable {
         saveSettings();
         SoundSystem.shutdown();
         settings.enableController = false;
-        keyHandler.quitGamepad();
+        ControllerSystem.quit();
         Logger.saveLog();
     }
 
