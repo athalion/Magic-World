@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start Game" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.athalion.game.twodgame.main.Main" />
+    <module name="Game2D" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -4,7 +4,8 @@ import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
-import de.athalion.game.twodgame.sound.SoundPlayer;
+import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.sound.Sounds;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -74,10 +75,6 @@ public class KeyHandler implements KeyListener {
     }
 
     private void processInput(KeyState keyState, KeyEvent e) {
-        //logo state
-        if (gamePanel.gameState == GameState.LOGO) {
-            logoState(keyState);
-        }
 
         //title state
         if (gamePanel.gameState == GameState.TITLE) {
@@ -119,15 +116,6 @@ public class KeyHandler implements KeyListener {
 
         if (keyState.isMenuOKPressed()) {
             enterPressed = true;
-        }
-
-    }
-
-    private void logoState(KeyState keyState) {
-
-        if (keyState.isEscapePressed()) {
-            gamePanel.logoTimer = 900;
-            gamePanel.stopSoundEffect();
         }
 
     }
@@ -202,25 +190,25 @@ public class KeyHandler implements KeyListener {
         if (keyState.isMenuUpPressed()) {
             if (gamePanel.ui.slotRow != 0) {
                 gamePanel.ui.slotRow--;
-                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
+                SoundSystem.playSound(Sounds.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuLeftPressed()) {
             if (gamePanel.ui.slotCol != 0) {
                 gamePanel.ui.slotCol--;
-                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
+                SoundSystem.playSound(Sounds.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuDownPressed()) {
             if (gamePanel.ui.slotRow != 3) {
                 gamePanel.ui.slotRow++;
-                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
+                SoundSystem.playSound(Sounds.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuRightPressed()) {
             if (gamePanel.ui.slotCol != 4) {
                 gamePanel.ui.slotCol++;
-                gamePanel.playSoundEffect(SoundPlayer.EFFECT_CURSOR);
+                SoundSystem.playSound(Sounds.EFFECT_CURSOR);
             }
         }
         if (keyState.isMenuOKPressed()) {

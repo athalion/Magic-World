@@ -1,13 +1,13 @@
 package de.athalion.game.twodgame.graphics.ui;
 
 import de.athalion.game.twodgame.entity.Entity;
-import de.athalion.game.twodgame.graphics.CutSceneManager;
+import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
-import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.object.OBJ_Heart;
-import de.athalion.game.twodgame.sound.SoundPlayer;
+import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.sound.Sounds;
 import de.athalion.game.twodgame.utility.RenderUtils;
 import de.athalion.game.twodgame.utility.Requirements;
 
@@ -46,9 +46,6 @@ public class UI {
     public int slotCol = 0;
     public int slotRow = 0;
 
-    public CutSceneManager cutSceneManager;
-    public int cutSceneIndex = 0;
-
     public Entity npc;
 
     public int charIndex;
@@ -63,7 +60,6 @@ public class UI {
         Logger.log("Initializing UI...");
 
         menuManager = new MenuManager(gamePanel);
-        cutSceneManager = new CutSceneManager(gamePanel, this);
 
         try {
             Logger.log("Loading Font...");
@@ -124,13 +120,9 @@ public class UI {
         }
         //cutScene state
         if (gamePanel.gameState == GameState.CUTSCENE) {
-            drawCutScene();
+            //TODO cutscene system
         }
 
-    }
-
-    private void drawCutScene() {
-        cutSceneManager.playCutScene(cutSceneIndex, g2);
     }
 
     private void drawPlayerLife() {
@@ -236,7 +228,7 @@ public class UI {
                 combinedText = combinedText + s;
                 currentDialog = combinedText;
                 charIndex++;
-                gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
+                SoundSystem.playSound(Sounds.EFFECT_TEXT);
             }
 
             if (gamePanel.keyHandler.enterPressed) {
@@ -338,7 +330,7 @@ public class UI {
             combinedText = combinedText + s;
             currentSimpleDialog = combinedText;
             charIndex++;
-            if (!silent) gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
+            if (!silent) SoundSystem.playSound(Sounds.EFFECT_TEXT);
         }
 
         for (String line : currentSimpleDialog.split("\n")) {
@@ -386,7 +378,7 @@ public class UI {
             combinedText = combinedText + s;
             message = combinedText;
             charIndex++;
-            gamePanel.playSoundEffect(SoundPlayer.EFFECT_TEXT);
+            SoundSystem.playSound(Sounds.EFFECT_TEXT);
         }
 
         for (String line : message.split("\n")) {

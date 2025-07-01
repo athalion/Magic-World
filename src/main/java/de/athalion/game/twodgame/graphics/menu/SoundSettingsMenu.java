@@ -4,6 +4,7 @@ import de.athalion.game.twodgame.input.KeyState;
 import de.athalion.game.twodgame.lang.Replacement;
 import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GamePanel;
+import de.athalion.game.twodgame.sound.SoundSystem;
 import de.athalion.game.twodgame.utility.RenderUtils;
 
 import java.awt.*;
@@ -92,7 +93,7 @@ public class SoundSettingsMenu implements MenuPage {
                     if (gamePanel.settings.environmentVolume != 0) gamePanel.settings.environmentVolume -= 1;
                     break;
             }
-            gamePanel.updateVolume();
+            SoundSystem.updateVolume(gamePanel.settings);
         }
         if (keyState.isMenuLeftPressed()) {
             switch (commandNum) {
@@ -106,12 +107,12 @@ public class SoundSettingsMenu implements MenuPage {
                     if (gamePanel.settings.environmentVolume != 10) gamePanel.settings.environmentVolume += 1;
                     break;
             }
-            gamePanel.updateVolume();
+            SoundSystem.updateVolume(gamePanel.settings);
         }
         if (keyState.isMenuOKPressed()) {
             if (commandNum == 0) {
                 gamePanel.settings.enableSound = !gamePanel.settings.enableSound;
-                gamePanel.updateVolume();
+                SoundSystem.updateVolume(gamePanel.settings);
             }
         }
         if (keyState.isMenuBackPressed()) {

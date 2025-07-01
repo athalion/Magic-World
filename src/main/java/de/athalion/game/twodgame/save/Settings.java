@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import de.athalion.game.twodgame.lang.Languages;
 import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.logs.Logger;
+import de.athalion.game.twodgame.sound.SoundSystem;
 
 import java.io.*;
 
@@ -71,6 +72,7 @@ public class Settings {
     public static void applySettings(Settings settings) {
         System.setProperty("sun.java2d.opengl", settings.hardwareAcceleration ? "true" : "false");
         Translations.changeLanguage(Languages.get(settings.language));
+        SoundSystem.updateVolume(settings);
     }
 
 }
