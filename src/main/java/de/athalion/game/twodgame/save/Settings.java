@@ -2,6 +2,7 @@ package de.athalion.game.twodgame.save;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.athalion.game.twodgame.input.ControllerSystem;
 import de.athalion.game.twodgame.lang.Languages;
 import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.logs.Logger;
@@ -12,6 +13,7 @@ import java.io.*;
 public class Settings {
 
     public boolean enableController = true;
+    public boolean enableControllerVibration = true;
     public boolean enableSound = true;
     public int musicVolume = 7;
     public int effectVolume = 9;
@@ -73,6 +75,7 @@ public class Settings {
         System.setProperty("sun.java2d.opengl", settings.hardwareAcceleration ? "true" : "false");
         Translations.changeLanguage(Languages.get(settings.language));
         SoundSystem.updateVolume(settings);
+        ControllerSystem.updateSettings(settings);
     }
 
 }

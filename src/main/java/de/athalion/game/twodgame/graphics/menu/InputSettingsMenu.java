@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.graphics.menu;
 
+import de.athalion.game.twodgame.input.ControllerSystem;
 import de.athalion.game.twodgame.input.KeyState;
 import de.athalion.game.twodgame.lang.Replacement;
 import de.athalion.game.twodgame.lang.Translations;
@@ -42,7 +43,7 @@ public class InputSettingsMenu implements MenuPage {
         } else g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
 
-        text = "Grafik";
+        text = Translations.get("menu.input.controllerVibration", new Replacement("%a", (gamePanel.settings.enableSound ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
         y = gamePanel.tileSize * 6;
         if (commandNum == 1) {
             g2.setColor(Color.ORANGE);
@@ -79,7 +80,8 @@ public class InputSettingsMenu implements MenuPage {
                     gamePanel.settings.enableController = !gamePanel.settings.enableController;
                     break;
                 case 1:
-
+                    gamePanel.settings.enableControllerVibration = !gamePanel.settings.enableControllerVibration;
+                    ControllerSystem.updateSettings(gamePanel.settings);
                     break;
                 case 2:
 

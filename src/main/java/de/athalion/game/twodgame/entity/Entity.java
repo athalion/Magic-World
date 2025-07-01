@@ -1,5 +1,6 @@
 package de.athalion.game.twodgame.entity;
 
+import de.athalion.game.twodgame.input.ControllerSystem;
 import de.athalion.game.twodgame.item.Item;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.main.Direction;
@@ -133,7 +134,7 @@ public abstract class Entity {
         if (this.type == EntityType.MONSTER && contactPlayer && this.dyingTimer == 0) {
             if (!gamePanel.player.invincible) {
                 SoundSystem.playSound(Sounds.EFFECT_RECEIVE_DAMAGE);
-                gamePanel.doControllerVibration(0.5f, 0.5f, 700);
+                ControllerSystem.doVibration(0.5f, 0.5f, 700);
 
                 gamePanel.player.life -= UtilityTool.calculateDamage(this, gamePanel.player);
                 gamePanel.player.invincible = true;

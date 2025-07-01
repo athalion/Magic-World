@@ -11,6 +11,7 @@
     "menu.settings.audio": "Audio",
     "menu.input.title": "SETTINGS - INPUT",
     "menu.input.controller": "Enable controller - %a",
+    "menu.input.controllerVibration": "Enable controller vibration - %a",
     "menu.graphics.title": "SETTINGS - GRAPHICS",
     "menu.graphics.fullscreen": "Fullscreen - %a",
     "menu.graphics.hardware_acceleration": "Hardware acceleration - %a",

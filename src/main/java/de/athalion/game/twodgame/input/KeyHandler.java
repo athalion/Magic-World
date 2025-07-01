@@ -1,7 +1,5 @@
 package de.athalion.game.twodgame.input;
 
-import com.studiohartman.jamepad.ControllerManager;
-import com.studiohartman.jamepad.ControllerState;
 import de.athalion.game.twodgame.main.GamePanel;
 import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.sound.SoundSystem;
@@ -12,16 +10,12 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public ControllerManager controllers = new ControllerManager();
-
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
 
     GamePanel gamePanel;
 
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-
-        controllers.initSDLGamepad();
     }
 
     @Override
@@ -48,30 +42,8 @@ public class KeyHandler implements KeyListener {
         processInput(keyState, e);
     }
 
-    public void checkControllerInput() {
-
-        ControllerState currentState = controllers.getState(0);
-
-        if (currentState.isConnected) {
-
-            KeyState keyState = new KeyState()
-                    .setMenuUpPressed(currentState.dpadUpJustPressed)
-                    .setMenuDownPressed(currentState.dpadDownJustPressed)
-                    .setMenuLeftPressed(currentState.dpadLeftJustPressed)
-                    .setMenuRightPressed(currentState.dpadRightJustPressed)
-                    .setMenuOKPressed(currentState.aJustPressed)
-                    .setMenuBackPressed(currentState.bJustPressed)
-                    .setMoveUpPressed(currentState.leftStickY >= 0.7f)
-                    .setMoveDownPressed(currentState.leftStickY <= -0.7f)
-                    .setMoveLeftPressed(currentState.leftStickX <= -0.7f)
-                    .setMoveRightPressed(currentState.leftStickX >= 0.7f)
-                    .setAttackPressed(currentState.aJustPressed)
-                    .setInventoryKeyPressed(currentState.xJustPressed)
-                    .setEscapePressed(currentState.startJustPressed);
-            processInput(keyState, null);
-
-        }
-
+    public void processControllerInput(KeyState keyState) {
+        processInput(keyState, null);
     }
 
     private void processInput(KeyState keyState, KeyEvent e) {
@@ -235,10 +207,6 @@ public class KeyHandler implements KeyListener {
             rightPressed = false;
         }
 
-    }
-
-    public void quitGamepad() {
-        controllers.quitSDLGamepad();
     }
 
 }
