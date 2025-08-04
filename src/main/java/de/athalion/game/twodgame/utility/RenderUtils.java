@@ -12,16 +12,13 @@ import java.io.InputStream;
 public class RenderUtils {
 
     public static void fillScreenBlack(float alpha, Graphics2D g2, GamePanel gamePanel) {
-
         g2.setColor(Color.BLACK);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
-
     }
 
     public static BufferedImage loadImage(String path, Class<?> aClass) {
-
         BufferedImage image = null;
         InputStream inputStream = aClass.getResourceAsStream(path + ".png");
 
@@ -33,7 +30,6 @@ public class RenderUtils {
         }
 
         return image;
-
     }
 
     public static void drawSubWindow(int x, int y, int width, int height, int arc, int alpha, Color color, Graphics2D g2) {

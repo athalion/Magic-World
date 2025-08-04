@@ -28,7 +28,6 @@ public class TitleMenu implements MenuPage {
 
     @Override
     public void draw(Graphics2D g2) {
-
         RenderUtils.fillScreenBlack(1F, g2, gamePanel);
 
         double ratio = (double) gamePanel.screenWidth / background.getWidth();
@@ -77,21 +76,19 @@ public class TitleMenu implements MenuPage {
         g2.drawString(text, x, y);
 
         MenuUtils.drawControlTips(g2, gamePanel, "[W] hoch", "[S] runter", "[ENTER] auswählen");
-
     }
 
     @Override
     public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
-
         MenuPage newMenuPage = null;
 
         if (keyState.isMenuUpPressed()) {
             commandNum--;
-            if (commandNum < 0) commandNum = 3;
+            if (commandNum < 0) commandNum = maxCommandNum;
         }
         if (keyState.isMenuDownPressed()) {
             commandNum++;
-            if (commandNum > 3) commandNum = 0;
+            if (commandNum > maxCommandNum) commandNum = 0;
         }
         if (keyState.isMenuOKPressed()) {
             switch (commandNum) {
@@ -112,7 +109,6 @@ public class TitleMenu implements MenuPage {
         }
 
         return newMenuPage;
-
     }
 
 }
