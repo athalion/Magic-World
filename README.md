@@ -57,6 +57,14 @@ java -jar Magic-World-<version>.jar
 ```
 (Replace `<version>` with the actual file name.)
 
+## Known Issues
+
+### Linux
+In some cases audio is output on the wrong device or with wrong volume.
+
+### GNOME
+Fullscreen and the screen selector might not work corectly on Linux systems with the GNOME desktop environment.
+
 ## Credits
 
 The basis of this game was created with the help of a tutorial by RyiSnow. (Go and check out his [channel](https://youtube.com/@RyiSnow))
