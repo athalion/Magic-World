@@ -8,6 +8,9 @@ At the moment, the game has neither a story nor any interesting gameplay.
 
 ## Building
 
+> I am developing this game as a hobby. The latest commit might not always work. I will try to mark working commits as stable, but there ist noch warranty.
+> Currently the game is in pre alpha. These are only snapshots.
+
 ### Requirements
 
 You must have at least [Java 23](https://www.oracle.com/java/technologies/downloads/) installed. Additionally you need [Maven](https://maven.apache.org/).
