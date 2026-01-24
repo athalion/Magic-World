@@ -13,7 +13,7 @@ At the moment, the game has neither a story nor any interesting gameplay.
 
 ### Requirements
 
-You must have at least [Java 23](https://www.oracle.com/java/technologies/downloads/) installed. Additionally you need [Maven](https://maven.apache.org/).
+You must have at least [Java 24](https://www.oracle.com/java/technologies/downloads/) installed. Additionally you need [Maven](https://maven.apache.org/).
 
 You *can* use [Git](https://git-scm.com/) to download the files, but **it is not required**.
 
