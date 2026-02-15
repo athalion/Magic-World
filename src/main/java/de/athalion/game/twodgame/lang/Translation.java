@@ -7,6 +7,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+/**
+ * Provides translation support for a specific {@link Language}.
+ * <p>
+ * When instantiated, the constructor loads a JSON file specified by {@link Language#getFile()}.
+ * Each key/value pair in that JSON becomes an entry in an internal map.
+ * <p>
+ * {@link #getString(String)} returns the string for a given identifier, or a
+ * fallback message when the key is missing.
+ * {@link #getLanguage()} returns the {@link Language} instance associated with this
+ * translation set.
+ */
 public class Translation {
 
     Language language;
