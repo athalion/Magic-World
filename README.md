@@ -8,6 +8,7 @@ At the moment, the game has neither a story nor any interesting gameplay.
 
 ## Building
 
+> [!NOTE]
 > I am developing this game as a hobby. The latest commit might not always work. There ist no warranty. <br>
 > Currently the game is in pre alpha. These are only snapshots.
 
