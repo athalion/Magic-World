@@ -1,133 +1,76 @@
 package de.athalion.game.twodgame.graphics.menu;
 
-import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.graphics.DrawContext;
+import de.athalion.game.twodgame.input.InputAction;
+import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Replacement;
 import de.athalion.game.twodgame.lang.Translations;
-import de.athalion.game.twodgame.logs.Logger;
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.save.Settings;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GraphicsSettingsMenu implements MenuPage {
 
-    final GamePanel gamePanel;
-
     int commandNum = 0;
-    int maxCommandNum = 2;
-
-    public GraphicsSettingsMenu(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
 
     @Override
-    public void draw(Graphics2D g2) {
-        RenderUtils.fillScreenBlack(1F, g2, gamePanel);
+    public void draw(DrawContext context) {
+        context.fillScreen(1F, Color.BLACK);
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        context.setColor(Color.WHITE);
+        context.setFontSize(48F);
 
         String text = "Einstellungen - Grafik";
-        int x = gamePanel.tileSize;
-        int y = gamePanel.tileSize * 3;
-        g2.drawString(text, x, y);
+        int x = GameInstance.getInstance().getGameFrame().TILE_SIZE;
+        int y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 3;
+        context.drawString(text, x, y);
 
-        text = Translations.get("menu.graphics.fullscreen", new Replacement("%a", (gamePanel.settings.fullscreen ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
-        y = gamePanel.tileSize * 5;
-        if (commandNum == 0) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        text = Translations.get("menu.graphics.fullscreen", new Replacement("%a", (Settings.getSettings().fullscreen ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 5;
+        context.drawString(text, x, y, commandNum == 0 ? Color.ORANGE : Color.WHITE);
 
-        text = Translations.get("menu.graphics.hardware_acceleration", new Replacement("%a", (gamePanel.settings.hardwareAcceleration ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
-        y = gamePanel.tileSize * 6;
-        if (commandNum == 1) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        text = Translations.get("menu.graphics.hardware_acceleration", new Replacement("%a", (Settings.getSettings().hardwareAcceleration ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 6;
+        context.drawString(text, x, y, commandNum == 1 ? Color.ORANGE : Color.WHITE);
 
         text = Translations.get("menu.graphics.language");
-        y = gamePanel.tileSize * 7;
-        if (commandNum == 2) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 7;
+        context.drawString(text, x, y, commandNum == 2 ? Color.ORANGE : Color.WHITE);
 
-        MenuUtils.drawControlTips(g2, gamePanel, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
+//        MenuUtils.drawControlTips(context, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
     }
 
     @Override
-    public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
+    public MenuPage update() {
         MenuPage newMenuPage = null;
 
-        if (keyState.isMenuUpPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_UP)) {
             commandNum--;
-            if (commandNum < 0) commandNum = maxCommandNum;
+            if (commandNum < 0) commandNum = 2;
         }
-        if (keyState.isMenuDownPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_DOWN)) {
             commandNum++;
-            if (commandNum > maxCommandNum) commandNum = 0;
+            if (commandNum > 2) commandNum = 0;
         }
-        if (keyState.isMenuOKPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_ENTER)) {
             switch (commandNum) {
                 case 0:
-                    if (gamePanel.settings.fullscreen) {
-                        gamePanel.settings.fullscreen = false;
-                        gamePanel.setFullScreen(false, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
-                    } else {
-                        GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-                        if (screenDevices.length > 1) {
-                            List<JFrame> frames = new ArrayList<>();
-                            for (int i = 0; i < screenDevices.length; i++) {
-                                GraphicsDevice screenDevice = screenDevices[i];
-                                JFrame frame = new JFrame();
-                                frame.setSize(400, 200);
-                                frame.setUndecorated(true);
-
-                                Rectangle bounds = screenDevice.getDefaultConfiguration().getBounds();
-
-                                int x = bounds.x + (bounds.width - frame.getWidth()) / 2;
-                                int y = bounds.y + (bounds.height - frame.getHeight()) / 2;
-
-                                frame.setLocation(x, y);
-
-                                Button button = new Button("Click to open window here!");
-                                int finalI = i;
-                                button.addActionListener(_ -> {
-                                    frames.forEach(Window::dispose);
-                                    gamePanel.settings.fullscreen = true;
-                                    gamePanel.settings.screen = finalI;
-                                    gamePanel.setFullScreen(true, screenDevice);
-                                });
-                                frame.add(button);
-                                frame.setVisible(true);
-
-                                frames.add(frame);
-                            }
-                        } else {
-                            gamePanel.setFullScreen(true, GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
-                            gamePanel.settings.fullscreen = true;
-                            gamePanel.settings.screen = 0;
-                        }
-                    }
+                    Settings.getSettings().fullscreen = !Settings.getSettings().fullscreen;
+                    GameInstance.getInstance().getGameFrame().setFullscreen(Settings.getSettings().fullscreen);
                     break;
                 case 1:
-                    gamePanel.settings.hardwareAcceleration = !gamePanel.settings.hardwareAcceleration;
-                    System.setProperty("sun.java2d.opengl", gamePanel.settings.hardwareAcceleration ? "true" : "false");
-                    Logger.log("Hardware acceleration " + (gamePanel.settings.hardwareAcceleration ? "enabled" : "disabled"));
+                    Settings.getSettings().hardwareAcceleration = !Settings.getSettings().hardwareAcceleration;
+                    System.setProperty("sun.java2d.opengl", Boolean.toString(Settings.getSettings().hardwareAcceleration));
                     break;
                 case 2:
-                    newMenuPage = new LanguageMenu(gamePanel);
+                    newMenuPage = new LanguageMenu();
                     break;
             }
 
         }
-        if (keyState.isMenuBackPressed()) {
-            newMenuPage = new SettingsMenu(gamePanel);
+        if (InputSystem.isActionJustPressed(InputAction.MENU_BACK)) {
+            newMenuPage = new SettingsMenu();
         }
 
         return newMenuPage;

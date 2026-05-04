@@ -2,28 +2,33 @@ package de.athalion.game.twodgame.save;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.athalion.game.twodgame.input.ControllerSystem;
+import de.athalion.game.twodgame.input.InputAction;
+import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Languages;
 import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.logs.Logger;
+import de.athalion.game.twodgame.main.GameInstance;
 import de.athalion.game.twodgame.sound.SoundSystem;
 
 import java.io.*;
+import java.util.HashMap;
 
 public class Settings {
 
+    private static Settings settings;
+
     public boolean enableController = true;
     public boolean enableControllerVibration = true;
+    public HashMap<InputAction, Integer> keybinds = InputSystem.getDefaultKeybinds();
     public boolean enableSound = true;
     public int musicVolume = 7;
     public int effectVolume = 9;
     public int environmentVolume = 5;
     public boolean fullscreen = true;
     public boolean hardwareAcceleration = true;
-    public int screen = 0;
     public String language = "en_us";
 
-    public static void saveSettings(Settings settings) {
+    public static void saveSettings() {
         Logger.log("Saving settings...");
         File settingsFile = new File(System.getProperty("user.dir") + "/settings.json");
         createSettingsFile();
@@ -37,22 +42,22 @@ public class Settings {
         }
     }
 
-    public static Settings loadSettings() {
+    public static void loadSettings() {
         Logger.log("Loading settings...");
         File settingsFile = new File(System.getProperty("user.dir") + "/settings.json");
         createSettingsFile();
         try (Reader reader = new FileReader(settingsFile)) {
             Gson gson = new GsonBuilder().create();
             Logger.log("Done!");
-            return gson.fromJson(reader, Settings.class);
+            settings = gson.fromJson(reader, Settings.class);
         } catch (IOException e) {
             Logger.error("Error while loading settings: " + e.getMessage());
             Logger.stackTrace(e.getStackTrace());
+            settings = new Settings();
         }
-        return new Settings();
     }
 
-    public static void createSettingsFile() {
+    private static void createSettingsFile() {
         File settingsFile = new File(System.getProperty("user.dir") + "/settings.json");
         if (!settingsFile.exists()) {
             try {
@@ -71,11 +76,15 @@ public class Settings {
         }
     }
 
-    public static void applySettings(Settings settings) {
-        System.setProperty("sun.java2d.opengl", settings.hardwareAcceleration ? "true" : "false");
+    public static Settings getSettings() {
+        return settings;
+    }
+
+    public static void applySettings() {
+        System.setProperty("sun.java2d.opengl", Boolean.toString(settings.hardwareAcceleration));
+        GameInstance.getInstance().getGameFrame().setFullscreen(settings.fullscreen);
         Translations.changeLanguage(Languages.get(settings.language));
-        SoundSystem.updateVolume(settings);
-        ControllerSystem.updateSettings(settings);
+        SoundSystem.updateVolume();
     }
 
 }

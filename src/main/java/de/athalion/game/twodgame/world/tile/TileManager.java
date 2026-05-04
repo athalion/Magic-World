@@ -1,84 +1,61 @@
 package de.athalion.game.twodgame.world.tile;
 
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.world.World;
+import de.athalion.game.twodgame.logs.Logger;
+import de.athalion.game.twodgame.resources.Identifier;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class TileManager {
 
-    GamePanel gamePanel;
     TileSet tileSet;
-    public double cameraX = 0;
-    public double cameraY = 0;
-    int targetX = 1000;
-    int targetY = 1000;
-    public double zoom = 1;
-    double targetZoom = 2;
+    int worldWidth, worldHeight;
+    int[][] mapTileNumber;
 
-    public TileManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-        tileSet = new TileSet(gamePanel);
-        tileSet.loadTileSet("");
+    public TileManager() {
+        tileSet = new TileSet();
     }
 
-    public void update() {
-        if (gamePanel.worldManager.getCurrentWorld().isCameraFixed()) {
-            targetX = gamePanel.worldManager.getCurrentWorld().getMaxWorldCol() * gamePanel.tileSize / 2;
-            targetY = gamePanel.worldManager.getCurrentWorld().getMaxWorldRow() * gamePanel.tileSize / 2;
-        }
-
-        cameraX += (targetX - cameraX) / 16;
-        cameraY += (targetY - cameraY) / 16;
-        zoom += (targetZoom - zoom) / 16;
+    public void loadTileSet(Identifier identifier) {
+        tileSet.loadTileSet(identifier.getPath());
     }
 
-    public void draw(Graphics2D g2, World world) {
+    public void loadMap(Identifier identifier) {
+        Logger.log("Loading map " + identifier.getPath() + "...");
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(identifier.getResource().toURI()));
 
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+            worldHeight = lines.size();
+            worldWidth = lines.getFirst().split(" ").length;
+            mapTileNumber = new int[worldWidth][worldHeight];
 
-        int worldCol = 0;
-        int worldRow = 0;
-
-        while (worldCol < world.getMaxWorldCol() && worldRow < world.getMaxWorldRow()) {
-
-            int tileNum = world.mapTileNumber[worldCol][worldRow];
-
-            int worldX = worldCol * gamePanel.tileSize;
-            int worldY = worldRow * gamePanel.tileSize;
-            int screenX = (int) (worldX - cameraX + gamePanel.halfWidth);
-            int screenY = (int) (worldY - cameraY + gamePanel.halfHeight);
-
-            if (worldX + gamePanel.tileSize > cameraX - gamePanel.halfWidth
-                    && worldX - gamePanel.tileSize < cameraX + gamePanel.halfWidth
-                    && worldY + gamePanel.tileSize > cameraY - gamePanel.halfHeight
-                    && worldY - gamePanel.tileSize < cameraY + gamePanel.halfHeight) {
-
-                BufferedImage currentImage = tileSet.getTile(tileNum).getCurrentFrame();
-                int x = screenX - currentImage.getWidth() + gamePanel.tileSize;
-                int y = screenY - currentImage.getHeight() + gamePanel.tileSize;
-                g2.drawImage(currentImage, x, y, null);
-            }
-            worldCol++;
-
-            if (worldCol == world.getMaxWorldCol()) {
-                worldCol = 0;
-                worldRow++;
+            for (int row = 0; row < worldHeight; row++) {
+                String[] numbers = lines.get(row).split(" ");
+                for (int col = 0; col < worldWidth; col++) {
+                    mapTileNumber[col][row] = Integer.parseInt(numbers[col]);
+                }
             }
 
+            Logger.log("Done!");
+        } catch (IOException | URISyntaxException e) {
+            Logger.error("Error loading map " + identifier.getPath() + ": " + e.getMessage());
+            Logger.stackTrace(e.getStackTrace());
         }
-
     }
 
-    public void setTarget(int targetX, int targetY) {
-        this.targetX = targetX;
-        this.targetY = targetY;
+    public int getWorldWidth() {
+        return worldWidth;
     }
 
-    public void setTargetZoom(double targetZoom) {
-        this.targetZoom = targetZoom;
+    public int getWorldHeight() {
+        return worldHeight;
+    }
+
+    public int[][] getMap() {
+        return mapTileNumber;
     }
 
     public TileSet getTileSet() {

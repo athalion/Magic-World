@@ -1,13 +1,12 @@
 package de.athalion.game.twodgame.event;
 
-import de.athalion.game.twodgame.main.Direction;
+import de.athalion.game.twodgame.location.Direction;
 
 import java.awt.*;
 import java.util.function.Predicate;
 
 public class Event {
 
-    String id;
     boolean canTrigger;
     final Direction requiredDirection;
     final Rectangle eventRectangle;
@@ -19,11 +18,6 @@ public class Event {
     public Event(Rectangle eventRectangle, Direction requiredDirection) {
         this.eventRectangle = eventRectangle;
         this.requiredDirection = requiredDirection;
-    }
-
-    public Event setId(String id) {
-        this.id = id;
-        return this;
     }
 
     public Event setWorldX(int worldX) {
@@ -75,10 +69,6 @@ public class Event {
 
     public boolean canTrigger() {
         return canTrigger;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public int getWorldX() {

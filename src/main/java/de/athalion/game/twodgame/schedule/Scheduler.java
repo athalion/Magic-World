@@ -6,18 +6,22 @@ import java.util.function.Consumer;
 
 public class Scheduler {
 
-    List<TimedTask> tasks = new ArrayList<>();
+    private final static List<TimedTask> TASKS = new ArrayList<>();
 
-    public void runTaskLater(Runnable runnable, int delay) {
-        tasks.add(new Task(runnable, delay));
+    public static void runTaskLater(Runnable runnable, int delay) {
+        TASKS.add(new Task(runnable, delay));
     }
 
-    public void runTimer(double start, double end, int duration, Consumer<Double> callback) {
-        tasks.add(new Timer(start, end, duration, callback));
+    public static void runTimer(double start, double end, int duration, Consumer<Double> callback) {
+        TASKS.add(new Timer(start, end, duration, callback));
     }
 
-    public void tick() {
-        tasks.removeIf(TimedTask::tick);
+    public static void runTicker(Runnable runnable) {
+        TASKS.add(new Ticker(runnable));
+    }
+
+    public static void tick() {
+        TASKS.removeIf(TimedTask::tick);
     }
 
 }

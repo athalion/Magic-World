@@ -1,62 +1,37 @@
 package de.athalion.game.twodgame.event;
 
-import de.athalion.game.twodgame.main.Direction;
-import de.athalion.game.twodgame.main.GamePanel;
+import de.athalion.game.twodgame.location.Direction;
+import de.athalion.game.twodgame.main.GameInstance;
 
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
 
 public class EventHandler {
 
-    final GamePanel gamePanel;
-    List<Event> eventList = new ArrayList<>();
+    List<Event> eventList;
 
-    public EventHandler(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public EventHandler(List<Event> eventList) {
+        this.eventList = eventList;
     }
 
     public void checkEvent() {
-
         eventList.forEach(event -> {
-
-            //check if player is more than 1 tile from event away
-            int xDistance = Math.abs(gamePanel.player.worldX - event.getWorldX());
-            int yDistance = Math.abs(gamePanel.player.worldY - event.getWorldY());
+            int xDistance = Math.abs(GameInstance.getInstance().getPlayer().getLocation().getX() - event.getWorldX());
+            int yDistance = Math.abs(GameInstance.getInstance().getPlayer().getLocation().getY() - event.getWorldY());
             int distance = Math.max(xDistance, yDistance);
-            if (distance > gamePanel.tileSize) event.canTrigger = true;
+            if (distance > GameInstance.getInstance().getGameFrame().TILE_SIZE) event.canTrigger = true;
 
             if (hit(event)) event.trigger();
-
         });
-
     }
 
-    public boolean hit(Event event) {
+    private boolean hit(Event event) {
+        Rectangle hitbox = GameInstance.getInstance().getPlayer().getHitbox();
 
-        boolean hit = false;
-
-        gamePanel.player.solidArea.x = gamePanel.player.worldX + gamePanel.player.solidArea.x;
-        gamePanel.player.solidArea.y = gamePanel.player.worldY + gamePanel.player.solidArea.y;
-
-        if (gamePanel.player.solidArea.intersects(event.getEventRectangle())) {
-            if (gamePanel.player.direction.equals(event.getRequiredDirection()) || event.requiredDirection.equals(Direction.ANY)) {
-                hit = true;
-            }
+        if (hitbox.intersects(event.getEventRectangle())) {
+            return GameInstance.getInstance().getPlayer().getDirection().equals(event.getRequiredDirection()) || event.getRequiredDirection().equals(Direction.ANY);
         }
-
-        gamePanel.player.solidArea.x = gamePanel.player.solidAreaDefaultX;
-        gamePanel.player.solidArea.y = gamePanel.player.solidAreaDefaultY;
-
-        return hit;
-
-    }
-
-    public void addEvent(Event event) {
-        eventList.add(event);
-    }
-
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
+        return false;
     }
 
     public List<Event> getEvents() {

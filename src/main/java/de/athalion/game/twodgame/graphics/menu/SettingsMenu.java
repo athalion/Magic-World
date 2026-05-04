@@ -1,94 +1,76 @@
 package de.athalion.game.twodgame.graphics.menu;
 
-import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.graphics.DrawContext;
+import de.athalion.game.twodgame.input.InputAction;
+import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Translations;
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.save.Settings;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class SettingsMenu implements MenuPage {
-
-    GamePanel gamePanel;
 
     int commandNum = 0;
     int maxCommandNum = 2;
 
-    public SettingsMenu(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
-
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(DrawContext context) {
+        context.fillScreen(1F, Color.BLACK);
 
-        RenderUtils.fillScreenBlack(1F, g2, gamePanel);
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        context.setColor(Color.WHITE);
+        context.setFontSize(48F);
 
         String text = Translations.get("menu.settings.title");
-        int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
-        int y = gamePanel.tileSize * 3;
-        g2.drawString(text, x, y);
+        int x = context.calculateXForCenteredText(text);
+        int y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 3;
+        context.drawString(text, x, y);
 
         text = Translations.get("menu.settings.input");
-        x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
-        y = gamePanel.tileSize * 6;
-        if (commandNum == 0) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        x = context.calculateXForCenteredText(text);
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 6;
+        context.drawString(text, x, y, commandNum == 0 ? Color.ORANGE : Color.WHITE);
 
         text = Translations.get("menu.settings.graphics");
-        x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
-        y = gamePanel.tileSize * 8;
-        if (commandNum == 1) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        x = context.calculateXForCenteredText(text);
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 8;
+        context.drawString(text, x, y, commandNum == 1 ? Color.ORANGE : Color.WHITE);
 
         text = Translations.get("menu.settings.audio");
-        x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
-        y = gamePanel.tileSize * 10;
-        if (commandNum == 2) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        x = context.calculateXForCenteredText(text);
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 10;
+        context.drawString(text, x, y, commandNum == 2 ? Color.ORANGE : Color.WHITE);
 
-        MenuUtils.drawControlTips(g2, gamePanel, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
-
+//        MenuUtils.drawControlTips(context, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
     }
 
     @Override
-    public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
-
+    public MenuPage update() {
         MenuPage newMenuPage = null;
 
-        if (keyState.isMenuUpPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_UP)) {
             commandNum--;
-            if (commandNum < 0) commandNum = 2;
+            if (commandNum < 0) commandNum = maxCommandNum;
         }
-        if (keyState.isMenuDownPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_DOWN)) {
             commandNum++;
-            if (commandNum > 2) commandNum = 0;
+            if (commandNum > maxCommandNum) commandNum = 0;
         }
-        if (keyState.isMenuOKPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_ENTER)) {
             newMenuPage = switch (commandNum) {
-                case 0 -> new InputSettingsMenu(gamePanel);
-                case 1 -> new GraphicsSettingsMenu(gamePanel);
-                case 2 -> new SoundSettingsMenu(gamePanel);
+                case 0 -> new InputSettingsMenu();
+                case 1 -> new GraphicsSettingsMenu();
+                case 2 -> new SoundSettingsMenu();
                 default -> newMenuPage;
             };
 
         }
-        if (keyState.isMenuBackPressed()) {
-            gamePanel.saveSettings();
-            newMenuPage = new TitleMenu(gamePanel);
+        if (InputSystem.isActionJustPressed(InputAction.MENU_BACK)) {
+            Settings.saveSettings();
+            newMenuPage = new TitleMenu();
         }
 
         return newMenuPage;
-
     }
 
 }

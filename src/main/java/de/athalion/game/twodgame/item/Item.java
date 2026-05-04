@@ -1,27 +1,38 @@
 package de.athalion.game.twodgame.item;
 
 import de.athalion.game.twodgame.entity.Entity;
-import de.athalion.game.twodgame.entity.Projectile;
-import de.athalion.game.twodgame.main.GamePanel;
+import de.athalion.game.twodgame.graphics.DrawContext;
+import de.athalion.game.twodgame.item.material.Material;
 
 public class Item extends Entity {
 
-    public int attackValue;
-    public float attackSpeedMultiplier;
-    public int defenceValue;
-    public String description = "";
-    public EquipType equipType;
-    public WeaponType weaponType;
-    public Projectile projectile;
-    public Item itemToConsume;
+    Material material;
+    int amount;
 
-    public void use() {
+    public Item(Material material, int amount) {
+        this.material = material;
+        this.amount = amount;
     }
 
-    public Item(GamePanel gamePanel) {
+    @Override
+    public void draw(DrawContext context, int screenX, int screenY) {
+        context.drawTexture(material.getTexture(), screenX, screenY);
+    }
 
-        super(gamePanel);
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
 }

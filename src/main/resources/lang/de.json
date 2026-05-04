@@ -12,6 +12,8 @@
     "menu.input.title": "EINSTELLUNGEN - EINGABE",
     "menu.input.controller": "Controller verwenden - %a",
     "menu.input.controllerVibration": "Controllervibration erlauben - %a",
+    "menu.input.keybinds": "Tastenbelegung",
+    "menu.keybinds.title": "EINSTELLUNGEN - TASTATURBELEGUNG",
     "menu.graphics.title": "EINSTELLUNGEN - GRAFIK",
     "menu.graphics.fullscreen": "Vollbild - %a",
     "menu.graphics.hardware_acceleration": "Hardware Beschleunigung - %a",
@@ -22,6 +24,21 @@
     "menu.audio.music": "Music Lautstärke - %a0%",
     "menu.audio.effects": "Effect Lautstärke - %a0%",
     "menu.audio.environment": "Environment Lautstärke - %a0%",
+
     "setting.enabled": "Ein",
-    "setting.disabled": "Aus"
+    "setting.disabled": "Aus",
+
+    "keybind.menu_up": "Menu Hoch",
+    "keybind.menu_down": "Menu Runter",
+    "keybind.menu_left": "Menu Links",
+    "keybind.menu_right": "Menu Right",
+    "keybind.menu_enter": "Menu Enter",
+    "keybind.menu_back": "Menu Zurück",
+    "keybind.move_up": "Hoch",
+    "keybind.move_down": "Runter",
+    "keybind.move_left": "Links",
+    "keybind.move_right": "Rechts",
+    "keybind.attack": "Angreifen",
+    "keybind.inventory": "Inventar",
+    "keybind.escape": "Pause"
 }

@@ -1,100 +1,81 @@
 package de.athalion.game.twodgame.graphics.menu;
 
-import de.athalion.game.twodgame.input.ControllerSystem;
-import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.graphics.DrawContext;
+import de.athalion.game.twodgame.input.InputAction;
+import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Replacement;
 import de.athalion.game.twodgame.lang.Translations;
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.save.Settings;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class InputSettingsMenu implements MenuPage {
 
-    final GamePanel gamePanel;
+    final int maxCommandNum = 2;
 
     int commandNum = 0;
-    int maxCommandNum = 2;
-
-    public InputSettingsMenu(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
 
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(DrawContext context) {
+        context.fillScreen(1f, Color.BLACK);
 
-        RenderUtils.fillScreenBlack(1F, g2, gamePanel);
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        context.setColor(Color.WHITE);
+        context.setFontSize(48f);
 
         String text = Translations.get("menu.input.title");
-        int x = gamePanel.tileSize;
-        int y = gamePanel.tileSize * 3;
-        g2.drawString(text, x, y);
+        int x = GameInstance.getInstance().getGameFrame().TILE_SIZE;
+        int y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 3;
+        context.drawString(text, x, y);
 
-        maxCommandNum = 2;
+        text = Translations.get("menu.input.controller", new Replacement("%a", (Settings.getSettings().enableController ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 5;
+        context.drawString(text, x, y, commandNum == 0 ? Color.ORANGE : Color.WHITE);
 
-        text = Translations.get("menu.input.controller", new Replacement("%a", (gamePanel.settings.enableController ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
-        y = gamePanel.tileSize * 5;
-        if (commandNum == 0) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        text = Translations.get("menu.input.controllerVibration", new Replacement("%a", (Settings.getSettings().enableControllerVibration ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 6;
+        context.drawString(text, x, y, commandNum == 1 ? Color.ORANGE : Color.WHITE);
 
-        text = Translations.get("menu.input.controllerVibration", new Replacement("%a", (gamePanel.settings.enableSound ? Translations.get("setting.enabled") : Translations.get("setting.disabled"))));
-        y = gamePanel.tileSize * 6;
-        if (commandNum == 1) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+        text = Translations.get("menu.input.keybinds");
+        y = GameInstance.getInstance().getGameFrame().TILE_SIZE * 7;
+        context.drawString(text, x, y, commandNum == 2 ? Color.ORANGE : Color.WHITE);
 
-        text = "Audio";
-        y = gamePanel.tileSize * 7;
-        if (commandNum == 2) {
-            g2.setColor(Color.ORANGE);
-        } else g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
-
-        MenuUtils.drawControlTips(g2, gamePanel, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
+        // TODO
+//        MenuUtils.drawControlTips(context, "[W] hoch", "[S] runter", "[ENTER] auswählen", "[ESC] zurück");
 
     }
 
     @Override
-    public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
-
+    public MenuPage update() {
         MenuPage newMenuPage = null;
 
-        if (keyState.isMenuUpPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_UP)) {
             commandNum--;
-            if (commandNum < 0) commandNum = 2;
+            if (commandNum < 0) commandNum = maxCommandNum;
         }
-        if (keyState.isMenuDownPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_DOWN)) {
             commandNum++;
-            if (commandNum > 2) commandNum = 0;
+            if (commandNum > maxCommandNum) commandNum = 0;
         }
-        if (keyState.isMenuOKPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_ENTER)) {
             switch (commandNum) {
                 case 0:
-                    gamePanel.settings.enableController = !gamePanel.settings.enableController;
+                    Settings.getSettings().enableController = !Settings.getSettings().enableController;
                     break;
                 case 1:
-                    gamePanel.settings.enableControllerVibration = !gamePanel.settings.enableControllerVibration;
-                    ControllerSystem.updateSettings(gamePanel.settings);
+                    Settings.getSettings().enableControllerVibration = !Settings.getSettings().enableControllerVibration;
                     break;
                 case 2:
-
+                    newMenuPage = new KeybindsMenu();
                     break;
             }
 
         }
-        if (keyState.isMenuBackPressed()) {
-            newMenuPage = new SettingsMenu(gamePanel);
+        if (InputSystem.isActionJustPressed(InputAction.MENU_BACK)) {
+            newMenuPage = new SettingsMenu();
         }
 
         return newMenuPage;
-
     }
 
 }

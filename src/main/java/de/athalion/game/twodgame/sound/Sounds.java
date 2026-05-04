@@ -1,45 +1,38 @@
 package de.athalion.game.twodgame.sound;
 
+import de.athalion.game.twodgame.resources.Identifier;
+
 public enum Sounds {
 
     // MUSIC
-    MUSIC_MENU("/sound/music/menu.wav", Type.MUSIC),
-    MUSIC_DEMON_BATTLE_INTRO("/sound/music/demon_battle/demon_battle_intro.wav", Type.MUSIC),
-    MUSIC_DEMON_BATTLE_LOOP("/sound/music/demon_battle/demon_battle_loop.wav", Type.MUSIC),
-    MUSIC_DEMON_BATTLE_OUTRO( "/sound/music/demon_battle/demon_battle_outro.wav", Type.MUSIC),
-    MUSIC_DEMON_BATTLE_SMALL( "/sound/music/demon_battle/demon_battle_small.wav", Type.MUSIC),
 
     // EFFECTS
-    EFFECT_COIN("/sound/coin.wav", Type.EFFECT),
-    EFFECT_POWERUP("/sound/powerup.wav", Type.EFFECT),
-    EFFECT_UNLOCK("/sound/unlock.wav", Type.EFFECT),
-    EFFECT_FANFARE("/sound/fanfare.wav", Type.EFFECT),
-    EFFECT_HIT_MONSTER("/sound/hitmonster.wav", Type.EFFECT),
-    EFFECT_RECEIVE_DAMAGE("/sound/receivedamage.wav", Type.EFFECT),
-    EFFECT_SWING_WEAPON("/sound/swingweapon.wav", Type.EFFECT),
-    EFFECT_LEVEL_UP("/sound/levelup.wav", Type.EFFECT),
-    EFFECT_CURSOR("/sound/effects/cursor.wav", Type.EFFECT),
-    EFFECT_TEXT("/sound/text.wav", Type.EFFECT),
-    EFFECT_LOGO("/sound/logo.wav", Type.EFFECT),
+    EFFECT_SWING_SWORD("/sound/effects/swing_sword.wav", Type.EFFECT, true),
+    EFFECT_TEST("/sound/music/demon_battle/demon_battle_intro.wav", Type.EFFECT, true),
 
     // ENVIRONMENT
-    ENVIRONMENT_RAIN("/sound/environment/rain.wav", Type.ENVIRONMENT),
-    ENVIRONMENT_RAIN_DULL("/sound/environment/rain_dull.wav", Type.ENVIRONMENT);
+    ENVIRONMENT_RAIN("/sound/environment/rain.wav", Type.ENVIRONMENT, true);
 
-    private final String path;
+    private final Identifier identifier;
     private final Type type;
+    private final boolean hapticsEnabled;
 
-    Sounds(String path, Type type) {
-        this.path = path;
+    Sounds(String path, Type type, boolean hapticsEnabled) {
+        identifier = Identifier.forPath(path);
         this.type = type;
+        this.hapticsEnabled = hapticsEnabled;
     }
 
-    public String getPath() {
-        return path;
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
     public Type getType() {
         return type;
+    }
+
+    public boolean isHapticsEnabled() {
+        return hapticsEnabled;
     }
 
     public enum Type {

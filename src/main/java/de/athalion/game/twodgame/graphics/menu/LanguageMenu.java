@@ -1,19 +1,18 @@
 package de.athalion.game.twodgame.graphics.menu;
 
-import de.athalion.game.twodgame.input.KeyState;
+import de.athalion.game.twodgame.graphics.DrawContext;
+import de.athalion.game.twodgame.input.InputAction;
+import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Language;
 import de.athalion.game.twodgame.lang.Languages;
 import de.athalion.game.twodgame.lang.Translations;
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.save.Settings;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class LanguageMenu implements MenuPage {
-
-    GamePanel gamePanel;
 
     int commandNum;
     int maxCommandNum;
@@ -21,72 +20,70 @@ public class LanguageMenu implements MenuPage {
     List<Language> languages;
     float displayY = 0;
 
-    public LanguageMenu(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-
+    public LanguageMenu() {
         languages = Languages.list();
         commandNum = languages.indexOf(Translations.getCurrentLanguage());
         maxCommandNum = languages.size() - 1;
     }
 
     @Override
-    public void draw(Graphics2D g2) {
-        RenderUtils.fillScreenBlack(1F, g2, gamePanel);
+    public void draw(DrawContext context) {
+        context.fillScreen(1f, Color.BLACK);
 
-        g2.setColor(Color.WHITE);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        context.setColor(Color.WHITE);
+        context.setFontSize(48F);
 
         String text = Translations.get("menu.language.title");
-        int x = RenderUtils.getXForCenteredText(text, g2, gamePanel);
-        int y = gamePanel.tileSize;
-        g2.drawString(text, x, y);
+        int x = context.calculateXForCenteredText(text);
+        int y = GameInstance.getInstance().getGameFrame().TILE_SIZE;
+        context.drawString(text, x, y);
 
-        displayY += ((-commandNum * gamePanel.tileSize) - displayY) / 16;
+        displayY += ((-commandNum * GameInstance.getInstance().getGameFrame().TILE_SIZE) - displayY) / 16;
         for (int i = 0; i < languages.size(); i++) {
             Language language = languages.get(i);
-            y = (int) (displayY + ((i + 1.5) * gamePanel.tileSize) + ((float) gamePanel.screenHeight / 2));
-            if (y > 0 && y < gamePanel.screenHeight + gamePanel.tileSize) {
-                double distance = Math.max((3 * gamePanel.tileSize) - y, y - (gamePanel.screenHeight - (1.5 * gamePanel.tileSize)));
+            y = (int) (displayY + ((i + 1.5) * GameInstance.getInstance().getGameFrame().TILE_SIZE) + ((float) GameInstance.getInstance().getGameFrame().SCREEN_HEIGHT / 2));
+            if (y > 0 && y < GameInstance.getInstance().getGameFrame().SCREEN_HEIGHT + GameInstance.getInstance().getGameFrame().TILE_SIZE) {
+                double distance = Math.max((3 * GameInstance.getInstance().getGameFrame().TILE_SIZE) - y, y - (GameInstance.getInstance().getGameFrame().SCREEN_HEIGHT - (1.5 * GameInstance.getInstance().getGameFrame().TILE_SIZE)));
                 if (i == commandNum) {
-                    g2.setColor(Color.ORANGE);
-                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+                    context.setColor(Color.ORANGE);
+                    context.setFontSize(48f);
                 } else {
-                    g2.setColor(Color.WHITE);
-                    g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+                    context.setColor(Color.WHITE);
+                    context.setFontSize(32f);
                 }
                 if (distance >= 0) {
-                    g2.setColor(new Color(
-                            g2.getColor().getRed(),
-                            g2.getColor().getGreen(),
-                            g2.getColor().getBlue(),
-                            Math.max((int) (255 - (distance / gamePanel.tileSize * 255)), 0)
+                    context.setColor(new Color(
+                            context.getColor().getRed(),
+                            context.getColor().getGreen(),
+                            context.getColor().getBlue(),
+                            Math.max((int) (255 - (distance / GameInstance.getInstance().getGameFrame().TILE_SIZE * 255)), 0)
                     ));
                 }
-                x = RenderUtils.getXForCenteredText(language.getName(), g2, gamePanel);
-                g2.drawString(language.getName(), x, y);
+                x = context.calculateXForCenteredText(language.getName());
+                context.drawString(language.getName(), x, y);
             }
         }
     }
 
     @Override
-    public MenuPage acceptInput(KeyState keyState, KeyEvent keyEvent) {
+    public MenuPage update() {
         MenuPage newMenuPage = null;
 
-        if (keyState.isMenuUpPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_UP)) {
             commandNum--;
             if (commandNum < 0) commandNum = maxCommandNum;
         }
-        if (keyState.isMenuDownPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_DOWN)) {
             commandNum++;
             if (commandNum > maxCommandNum) commandNum = 0;
         }
-        if (keyState.isMenuOKPressed()) {
+        if (InputSystem.isActionJustPressed(InputAction.MENU_ENTER)) {
             Language newLanguage = languages.get(commandNum);
             Translations.changeLanguage(newLanguage);
-            gamePanel.settings.language = newLanguage.getId();
+            Settings.getSettings().language = newLanguage.getId();
         }
-        if (keyState.isMenuBackPressed()) {
-            newMenuPage = new GraphicsSettingsMenu(gamePanel);
+        if (InputSystem.isActionJustPressed(InputAction.MENU_BACK)) {
+            newMenuPage = new GraphicsSettingsMenu();
         }
 
         return newMenuPage;

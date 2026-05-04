@@ -21,6 +21,7 @@ public class Timer extends TimedTask {
         this.callback = callback;
     }
 
+    @Override
     public boolean tick() {
         time++;
         callback.accept(start + ((end - start) / duration * time));

@@ -12,6 +12,8 @@
     "menu.input.title": "SETTINGS - INPUT",
     "menu.input.controller": "Enable controller - %a",
     "menu.input.controllerVibration": "Enable controller vibration - %a",
+    "menu.input.keybinds": "Keybinds",
+    "menu.keybinds.title": "SETTINGS - KEYBINDS",
     "menu.graphics.title": "SETTINGS - GRAPHICS",
     "menu.graphics.fullscreen": "Fullscreen - %a",
     "menu.graphics.hardware_acceleration": "Hardware acceleration - %a",
@@ -22,6 +24,21 @@
     "menu.audio.music": "Music volume - %a0%",
     "menu.audio.effects": "Effect volume - %a0%",
     "menu.audio.environment": "Environment volume - %a0%",
+
     "setting.enabled": "on",
-    "setting.disabled": "off"
+    "setting.disabled": "off",
+
+    "keybind.menu_up": "Menu Up",
+    "keybind.menu_down": "Menu Down",
+    "keybind.menu_left": "Menu Left",
+    "keybind.menu_right": "Menu Right",
+    "keybind.menu_enter": "Menu Enter",
+    "keybind.menu_back": "Menu Back",
+    "keybind.move_up": "Move Up",
+    "keybind.move_down": "Move Down",
+    "keybind.move_left": "Move Left",
+    "keybind.move_right": "Move Right",
+    "keybind.attack": "Attack",
+    "keybind.inventory": "Inventory",
+    "keybind.escape": "Pause"
 }

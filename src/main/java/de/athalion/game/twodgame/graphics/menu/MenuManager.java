@@ -1,38 +1,33 @@
 package de.athalion.game.twodgame.graphics.menu;
 
-import de.athalion.game.twodgame.input.KeyState;
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.utility.RenderUtils;
+import de.athalion.game.twodgame.graphics.DrawContext;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class MenuManager {
-
-    GamePanel gamePanel;
 
     MenuPage menuPage;
     MenuPage newMenuPage;
 
     int fadeTimer = -1;
 
-    public MenuManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-        menuPage = new TitleMenu(gamePanel);
+    public MenuManager() {
+        menuPage = new TitleMenu();
     }
 
-    public void render(Graphics2D g2) {
-        menuPage.draw(g2);
+    public void render(DrawContext context) {
+        menuPage.draw(context);
 
         if (fadeTimer >= 0) {
             fadeTimer++;
+            context.setColor(Color.BLACK);
             if (fadeTimer < 20) {
-                RenderUtils.fillScreenBlack((float) fadeTimer / 20, g2, gamePanel);
+                context.fillScreen((float) fadeTimer / 20);
             } else if (fadeTimer == 21) {
                 menuPage = newMenuPage;
-                RenderUtils.fillScreenBlack(1F, g2, gamePanel);
+                context.fillScreen(1f);
             } else {
-                RenderUtils.fillScreenBlack((float) (40 - fadeTimer) / 20, g2, gamePanel);
+                context.fillScreen((float) (40 - fadeTimer) / 20);
             }
             if (fadeTimer == 40) {
                 fadeTimer = -1;
@@ -40,8 +35,9 @@ public class MenuManager {
         }
     }
 
-    public void acceptInput(KeyState keyState, KeyEvent keyEvent) {
-        MenuPage newMenuPage = menuPage.acceptInput(keyState, keyEvent);
+    public void update() {
+        if (fadeTimer >= 0) return;
+        MenuPage newMenuPage = menuPage.update();
         if (newMenuPage != null) {
             this.newMenuPage = newMenuPage;
             fadeTimer = 0;

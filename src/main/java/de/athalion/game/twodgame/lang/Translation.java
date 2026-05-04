@@ -34,7 +34,7 @@ public class Translation {
     }
 
     public String getString(String id) {
-        return translations.getOrDefault(id, "Missing translation!");
+        return translations.getOrDefault(id, "Missing translation! (" + id + ")");
     }
 
     public Language getLanguage() {

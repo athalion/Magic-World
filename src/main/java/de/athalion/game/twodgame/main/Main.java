@@ -1,53 +1,36 @@
 package de.athalion.game.twodgame.main;
 
 import de.athalion.game.twodgame.logs.Logger;
-import de.athalion.game.twodgame.sound.SoundSystem;
-import de.athalion.game.twodgame.sound.Sounds;
-import de.athalion.game.twodgame.utility.Requirements;
+import de.athalion.game.twodgame.resources.Identifier;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
+import java.util.Properties;
 
 public class Main {
 
-    public static JFrame window;
-    public static JLabel logo;
-    public static Cursor blankCursor;
+    public static String VERSION;
 
     public static void main(String[] args) {
-
         Logger.createSession();
 
-        GamePanel gamePanel = new GamePanel();
-        gamePanel.setupGame();
-
-        Logger.log("Loading logo...");
-        URL img = Main.class.getResource("/menu/logo.gif");
-        ImageIcon icon = new ImageIcon(Requirements.notNull(img, "Could not load logo because /menu/logo.gif is null!"));
-
-        icon.setImage(icon.getImage().getScaledInstance(window.getWidth(), window.getHeight(), Image.SCALE_FAST));
-        logo = new JLabel("", icon, SwingConstants.CENTER);
-
-        gamePanel.add(logo);
-        SoundSystem.playSound(Sounds.EFFECT_LOGO);
-
-        BufferedImage cursorImage = null;
         try {
-            Logger.log("Creating blank cursor...");
-            cursorImage = ImageIO.read(Objects.requireNonNull(Main.class.getResourceAsStream("/blank_cursor.png")));
+            Properties properties = new Properties();
+            properties.load(Identifier.forPath("/project.properties").stream());
+            VERSION = properties.getProperty("version");
         } catch (IOException e) {
-            Logger.error("Error loading blank cursor: " + e.getMessage());
+            Logger.error("Error loading project properties!");
             Logger.stackTrace(e.getStackTrace());
         }
-        blankCursor = window.getToolkit().createCustomCursor(cursorImage, new Point(), "blank");
 
-        gamePanel.startGameThread();
+        GameInstance gameInstance = new GameInstance();
+        gameInstance.init();
 
+//        Logger.log("Creating blank cursor...");
+//        Texture cursorTexture = Textures.setup(Identifier.forPath(CURSOR_PATH), false);
+//        Cursor blankCursor = gameFrame.getToolkit().createCustomCursor(cursorTexture.getFrame(), new Point(), "blank");
+//        gameFrame.setCursor(blankCursor);
+
+        gameInstance.startGameThread();
     }
 
 }

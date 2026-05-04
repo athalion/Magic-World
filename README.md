@@ -34,7 +34,7 @@ The program uses Maven, so you do not have to worry about most dependencies. How
 
 You can get the latest release [here](https://finnkuusisto.github.io/TinySound/releases/tinysound-1.1.1.zip). Then unzip the folder and open a terminal in it.
 
-> On Windows, go to the address bar which displays the current location (e.g., `C:\Download\`) and type `cmd`, then press Enter.  
+> On Windows, go to the address bar which displays the current location (e.g., `> Downloads >`) and type `cmd`, then press Enter.  
 > If you use Linux, you probably already have at least one terminal open :))
 
 Install TinySound in your local Maven repository by running:
@@ -66,7 +66,7 @@ java -jar Magic-World-<version>.jar
 In some cases audio is output on the wrong device or with wrong volume.
 
 ### GNOME
-Fullscreen and the screen selector might not work corectly on Linux systems with the GNOME desktop environment.
+Fullscreen might not work correctly on Linux systems with the GNOME desktop environment.
 
 ## Credits
 

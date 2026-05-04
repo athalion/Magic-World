@@ -1,38 +1,36 @@
 package de.athalion.game.twodgame.world;
 
-import de.athalion.game.twodgame.main.GamePanel;
-import de.athalion.game.twodgame.sound.Sounds;
-import de.athalion.game.twodgame.sound.SoundSystem;
+import de.athalion.game.twodgame.utility.Requirements;
+import de.athalion.game.twodgame.worlds.Home;
 
 import java.util.HashMap;
 
 public class WorldManager {
 
-    private final GamePanel gamePanel;
+    private final HashMap<String, World> WORLDS = new HashMap<>();
+    private final HashMap<String, WorldInstance> loadedWorlds = new HashMap<>();
 
-    final HashMap<String, Class<? extends World>> WORLDS = new HashMap<>();
-    World currentWorld;
-
-    public WorldManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public WorldManager() {
+        registerWorlds();
     }
 
-    public void load(String savePath) {
-
+    private void registerWorlds() {
+        WORLDS.put(Home.NAME_KEY, new Home());
     }
 
-    public Class<? extends World> getWorld(String name) {
-        return WORLDS.get(name);
+    public WorldInstance loadWorld(String nameKey) {
+        WorldInstance worldInstance = new WorldInstance(WORLDS.get(nameKey));
+        loadedWorlds.put(nameKey, worldInstance);
+        return worldInstance;
     }
 
-    public void changeWorld(World world) {
-        SoundSystem.stopSound(Sounds.Type.ENVIRONMENT);
-        currentWorld = world;
-        gamePanel.tileManager.setTargetZoom(world.zoom);
+    public WorldInstance getWorld(String nameKey) {
+        Requirements.requires(loadedWorlds.containsKey(nameKey), "Failed to get world: " + nameKey + "! The world is not loaded!");
+        return loadedWorlds.get(nameKey);
     }
 
-    public World getCurrentWorld() {
-        return currentWorld;
+    public void unloadWorld(String nameKey) {
+        loadedWorlds.remove(nameKey);
     }
 
 }

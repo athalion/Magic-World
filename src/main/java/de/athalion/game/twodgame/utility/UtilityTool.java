@@ -1,53 +1,50 @@
 package de.athalion.game.twodgame.utility;
 
-import de.athalion.game.twodgame.entity.Entity;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class UtilityTool {
 
     public static BufferedImage scaleImage(BufferedImage original, int width, int height) {
-
         BufferedImage scaledImage = new BufferedImage(width, height, original.getType());
         Graphics2D g2 = scaledImage.createGraphics();
         g2.drawImage(original, 0, 0, width, height, null);
         g2.dispose();
 
         return scaledImage;
-
     }
 
-    public static int calculateDamage(Entity attacker, Entity attacked) {
+//    public static int calculateDamage(Entity attacker, Entity attacked, DamageType type) {
+//
+//        int damage;
+//        int levelDifference;
+//        int criticalChance;
+//        Random random = new Random();
+//
+//        levelDifference = attacker.level - attacked.level;
+//
+//        criticalChance = (levelDifference + 1) * 7;
+//
+//        if (levelDifference < 0) {
+//            criticalChance = 0;
+//        }
+//
+//        if (random.nextInt(100) + 1 <= criticalChance) {
+//            damage = (int) (((double) attacker.attack / 2 + (random.nextInt(attacker.attack) + 1)) * random.nextDouble(2) + 1);
+//        } else {
+//            damage = attacker.attack / 2 + (random.nextInt(attacker.attack) + 1);
+//        }
+//
+//        damage -= attacked.defence / 2 + (random.nextInt(attacked.defence + 1));
+//
+//        if (damage < 0) damage = 0;
+//
+//        return damage;
+//
+//    }
 
-        int damage;
-        int levelDifference;
-        int criticalChance;
-        Random random = new Random();
-
-        levelDifference = attacker.level - attacked.level;
-
-        criticalChance = (levelDifference + 1) * 7;
-
-        if (levelDifference < 0) {
-            criticalChance = 0;
-        }
-
-        if (random.nextInt(100) + 1 <= criticalChance) {
-            damage = (int) ((attacker.attack / 2 + (random.nextInt(attacker.attack) + 1)) * random.nextDouble(2) + 1);
-        } else {
-            damage = attacker.attack / 2 + (random.nextInt(attacker.attack) + 1);
-        }
-
-        damage -= attacked.defence / 2 + (random.nextInt(attacked.defence + 1));
-
-        if (damage < 0) damage = 0;
-
-        return damage;
-
-    }
+    // spaghetti á gpt
 
     public static boolean isIgnoredKey(KeyEvent e) {
         int keyCode = e.getKeyCode();

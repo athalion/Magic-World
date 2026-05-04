@@ -1,21 +1,23 @@
 package de.athalion.game.twodgame.world.tile;
 
-import java.awt.image.BufferedImage;
+import de.athalion.game.twodgame.resources.texture.Texture;
 
 public class Tile {
 
-    public BufferedImage[] images;
+    Texture texture;
     public boolean collision = false;
-    int frames;
-    int frame = 0;
 
-    public BufferedImage getCurrentFrame() {
-        return images[frame];
+    public Tile(Texture texture, boolean collision) {
+        this.texture = texture;
+        this.collision = collision;
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 
     public void nextFrame() {
-        frame++;
-        if (frame >= frames) frame = 0;
+        texture.nextFrame();
     }
 
 }
