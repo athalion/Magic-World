@@ -35,6 +35,7 @@ The program uses Maven, so you do not have to worry about most dependencies. How
 
 You can get the latest release [here](https://finnkuusisto.github.io/TinySound/releases/tinysound-1.1.1.zip). Then unzip the folder and open a terminal in it.
 
+> [!TIP]
 > On Windows, go to the address bar which displays the current location (e.g., `> Downloads >`) and type `cmd`, then press Enter.  
 > If you use Linux, you probably already have at least one terminal open :))
 
