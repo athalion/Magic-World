@@ -14,7 +14,7 @@ public class AdvancedVibration {
     public AdvancedVibration(Sounds sound) throws UnsupportedAudioFileException, IOException {
         Vector[] extractedPattern = RMSHelper.extractStereoRms(sound.getIdentifier().stream());
         extractedPattern = RMSHelper.applyCurves(extractedPattern);
-        vibrationPattern = RMSHelper.applyExponentialSmoothing(extractedPattern, 0.03);
+        vibrationPattern = RMSHelper.applyExponentialSmoothing(extractedPattern);
     }
 
     public Vector[] getVibrationPattern() {
