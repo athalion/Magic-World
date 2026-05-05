@@ -8,10 +8,9 @@ public enum Sounds {
 
     // EFFECTS
     EFFECT_SWING_SWORD("/sound/effects/swing_sword.wav", Type.EFFECT, true),
-    EFFECT_TEST("/sound/music/demon_battle/demon_battle_intro.wav", Type.EFFECT, true),
 
     // ENVIRONMENT
-    ENVIRONMENT_RAIN("/sound/environment/rain.wav", Type.ENVIRONMENT, true);
+    ENVIRONMENT_RAIN("/sound/environment/rain.wav", Type.ENVIRONMENT, false);
 
     private final Identifier identifier;
     private final Type type;

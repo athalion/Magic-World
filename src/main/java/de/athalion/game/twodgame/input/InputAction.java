@@ -19,7 +19,7 @@ public enum InputAction {
     MOVE_RIGHT(KeyEvent.VK_D, controllerState -> new InputActionState(controllerState.rightStickX >= 0.7f, false)),
     ATTACK(KeyEvent.VK_ENTER, controllerState -> new InputActionState(controllerState.a, controllerState.aJustPressed)),
 
-    INVENTORY(KeyEvent.VK_E, controllerState -> new InputActionState(controllerState.y, controllerState.yJustPressed)),
+    INVENTORY(KeyEvent.VK_E, controllerState -> new InputActionState(controllerState.x, controllerState.xJustPressed)),
 
     ESCAPE(KeyEvent.VK_ESCAPE, controllerState -> new InputActionState(controllerState.start, controllerState.startJustPressed));
 
