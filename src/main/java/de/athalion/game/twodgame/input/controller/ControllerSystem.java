@@ -1,9 +1,8 @@
 package de.athalion.game.twodgame.input.controller;
 
-import com.studiohartman.jamepad.ControllerManager;
-import com.studiohartman.jamepad.ControllerState;
-import com.studiohartman.jamepad.ControllerUnpluggedException;
+import com.studiohartman.jamepad.*;
 import de.athalion.game.twodgame.logs.Logger;
+import de.athalion.game.twodgame.math.Vector;
 import de.athalion.game.twodgame.save.Settings;
 import de.athalion.game.twodgame.sound.Sounds;
 
@@ -23,6 +22,19 @@ public class ControllerSystem {
     public static ControllerState checkInput() {
         controllerManager.update();
         return controllerManager.getState(0);
+    }
+
+    public static Vector getVector() {
+        ControllerIndex controllerIndex = controllerManager.getControllerIndex(0);
+        if (!controllerIndex.isConnected()) return new Vector(0, 0);
+        try {
+            return new Vector(
+                    controllerIndex.getAxisState(ControllerAxis.LEFTX),
+                    controllerIndex.getAxisState(ControllerAxis.LEFTY)
+            );
+        } catch (ControllerUnpluggedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void doVibration(float leftMagnitude, float rightMagnitude, int duration) {

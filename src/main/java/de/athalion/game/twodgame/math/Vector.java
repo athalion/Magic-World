@@ -18,6 +18,10 @@ public class Vector {
         this.y = vector.y;
     }
 
+    /**
+     * Returns a new vector with the same values.
+     * @return the new vector
+     */
     @Override
     public Vector clone() {
         return new Vector(this);
@@ -53,6 +57,10 @@ public class Vector {
         return this;
     }
 
+    public Vector multiply(double d) {
+        return multiply(d, d);
+    }
+
     public Vector multiply(double x, double y) {
         this.x *= x;
         this.y *= y;
@@ -65,10 +73,22 @@ public class Vector {
         return this;
     }
 
+    public Vector divide(double d) {
+        return divide(d, d);
+    }
+
     public Vector divide(double x, double y) {
         this.x /= x;
         this.y /= y;
         return this;
+    }
+
+    /**
+     * Scales the vector to unit length.
+     * @return The normalized vector
+     */
+    public Vector normalize() {
+        return this.divide(this.length());
     }
 
     public double length() {
@@ -99,6 +119,10 @@ public class Vector {
 
     public Location toLocation(WorldInstance worldInstance) {
         return new Location(worldInstance, this);
+    }
+
+    public static Vector lerp(Vector v1, Vector v2, double t) {
+        return v1.clone().multiply(1 - t).add(v2.clone().multiply(t));
     }
 
 }

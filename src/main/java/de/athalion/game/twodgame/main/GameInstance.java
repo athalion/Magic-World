@@ -7,6 +7,7 @@ import de.athalion.game.twodgame.graphics.menu.MenuManager;
 import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.logs.Logger;
 import de.athalion.game.twodgame.save.Settings;
+import de.athalion.game.twodgame.save.state.SaveState;
 import de.athalion.game.twodgame.schedule.Scheduler;
 import de.athalion.game.twodgame.sound.SoundSystem;
 import de.athalion.game.twodgame.world.WorldManager;
@@ -135,6 +136,11 @@ public class GameInstance implements Runnable {
         bs.show();
     }
 
+    public void loadGame(String save) {
+        SaveState saveState = SaveState.loadGameState(save);
+        // TODO load stuff
+    }
+
     private void quit() {
         Logger.log("Exiting...");
         Settings.saveSettings();
@@ -170,6 +176,10 @@ public class GameInstance implements Runnable {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public static GameInstance getInstance() {

@@ -5,6 +5,7 @@ import de.athalion.game.twodgame.input.InputAction;
 import de.athalion.game.twodgame.input.InputSystem;
 import de.athalion.game.twodgame.lang.Translations;
 import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.main.GameState;
 import de.athalion.game.twodgame.save.state.SaveStateManager;
 import de.athalion.game.twodgame.sound.SoundSystem;
 
@@ -78,10 +79,9 @@ public class LoadGameMenu implements MenuPage {
             if (commandNum > maxCommandNum) commandNum = 0;
         }
         if (InputSystem.isActionJustPressed(InputAction.MENU_ENTER)) {
-            // TODO implement game loading
-//            GameInstance.getInstance().loadGame(saves.get(commandNum));
+            GameInstance.getInstance().loadGame(saves.get(commandNum));
             SoundSystem.stopMusic();
-//            GameInstance.getInstance().gameState = GameState.PLAY;
+            GameInstance.getInstance().setGameState(GameState.PLAY);
         }
         if (InputSystem.isActionJustPressed(InputAction.MENU_BACK)) {
             newMenuPage = new TitleMenu();

@@ -1,8 +1,8 @@
 package de.athalion.game.twodgame.event;
 
 import de.athalion.game.twodgame.location.Direction;
+import de.athalion.game.twodgame.math.Rectangle;
 
-import java.awt.*;
 import java.util.function.Predicate;
 
 public class Event {
@@ -21,12 +21,12 @@ public class Event {
     }
 
     public Event setWorldX(int worldX) {
-        eventRectangle.x = worldX;
+        eventRectangle.setX(worldX);
         return this;
     }
 
     public Event setWorldY(int worldY) {
-        eventRectangle.y = worldY;
+        eventRectangle.setY(worldY);
         return this;
     }
 
@@ -72,11 +72,11 @@ public class Event {
     }
 
     public int getWorldX() {
-        return eventRectangle.x;
+        return (int) eventRectangle.getX();
     }
 
     public int getWorldY() {
-        return eventRectangle.y;
+        return (int) eventRectangle.getY();
     }
 
     public Direction getRequiredDirection() {

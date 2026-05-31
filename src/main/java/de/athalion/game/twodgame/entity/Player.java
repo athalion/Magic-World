@@ -3,105 +3,48 @@ package de.athalion.game.twodgame.entity;
 import de.athalion.game.twodgame.entity.stats.Stats;
 import de.athalion.game.twodgame.input.InputAction;
 import de.athalion.game.twodgame.input.InputSystem;
-import de.athalion.game.twodgame.input.KeyHandler;
-import de.athalion.game.twodgame.item.Item;
-import de.athalion.game.twodgame.location.Direction;
+import de.athalion.game.twodgame.item.container.Inventory;
+import de.athalion.game.twodgame.math.Vector;
 import de.athalion.game.twodgame.resources.Identifier;
+import de.athalion.game.twodgame.resources.texture.TextureStack;
+import de.athalion.game.twodgame.resources.texture.TextureStackPointer;
 import de.athalion.game.twodgame.resources.texture.Textures;
-import de.athalion.game.twodgame.utility.CollisionChecker;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class Player extends Entity {
 
-    KeyHandler keyHandler;
+    public static final TextureStack PLAYER_TEXTURE_STACK = new TextureStack(
+            Textures.setup(Identifier.forPath("/textures/entity/player/character.png"), false),
+            new TextureStack.TextureSet(
+                    Textures.setup(Identifier.forPath("/textures/entity/player/idle/up.png"), false),
+                    Textures.setup(Identifier.forPath("/textures/entity/player/idle/down.png"), false),
+                    Textures.setup(Identifier.forPath("/textures/entity/player/idle/left.png"), false),
+                    Textures.setup(Identifier.forPath("/textures/entity/player/idle/right.png"), false)
+            )
+    );
 
     public boolean attackCanceled = false;
 
-    public ArrayList<Item> inventory = new ArrayList<>();
-    public final int inventorySize = 20;
+    Inventory inventory = new Inventory(20);
 
-    public Player(KeyHandler keyHandler) {
-        this.keyHandler = keyHandler;
+    public Player() {
+        type = EntityType.PLAYER;
 
-        hitbox = new Rectangle(8, 16, 32, 32);
+        textureStackPointer = new TextureStackPointer(PLAYER_TEXTURE_STACK);
 
-        setupTextures();
-    }
-
-    private void setupTextures() {
-        up = Textures.setup(Identifier.forPath("/player/boy_up_1.png"), false);
-        down = Textures.setup(Identifier.forPath("/player/boy_down_1.png"), false);
-        left = Textures.setup(Identifier.forPath("/player/boy_left_1.png"), false);
-        right = Textures.setup(Identifier.forPath("/player/boy_right_1.png"), false);
+        hitboxSize = new Vector(32, 32);
     }
 
     @Override
     public void update() {
+        Vector inputVector = InputSystem.getVector(InputAction.MOVE_UP, InputAction.MOVE_DOWN, InputAction.MOVE_LEFT, InputAction.MOVE_RIGHT);
 
-        if (attacking) {
-//            attack();
-        } else if (InputSystem.isActionPressed(InputAction.MOVE_UP) ||
-                InputSystem.isActionJustPressed(InputAction.MOVE_DOWN) ||
-                InputSystem.isActionPressed(InputAction.MOVE_LEFT) ||
-                InputSystem.isActionPressed(InputAction.MOVE_RIGHT) ||
-                InputSystem.isActionPressed(InputAction.ATTACK)) {
+        if (inputVector.length() > 0) {
+            velocity = Vector.lerp(velocity, inputVector.multiply(stats.get(Stats.SPEED)), 0.7);
+        } else velocity = Vector.lerp(velocity, inputVector, 0.85);
 
-            if (InputSystem.isActionPressed(InputAction.MOVE_UP)) {
-                direction = Direction.UP;
-            } else if (InputSystem.isActionPressed(InputAction.MOVE_DOWN)) {
-                direction = Direction.DOWN;
-            } else if (InputSystem.isActionPressed(InputAction.MOVE_LEFT)) {
-                direction = Direction.LEFT;
-            } else if (InputSystem.isActionPressed(InputAction.MOVE_RIGHT)) {
-                direction = Direction.RIGHT;
-            }
+        move();
 
-            //check world collision
-            boolean collision = CollisionChecker.checkTile(this);
-
-            //check object collision
-//            int objIndex = CollisionChecker.checkObject(this, true);
-//            pickupObject(objIndex);
-
-            //check monster collision
-            Entity monster = CollisionChecker.checkEntities(this, getWorld().getEntities());
-//            contactMonster(monster);
-
-            //check event
-            getWorld().getEventHandler().checkEvent();
-
-            //move player if no collision
-            if (!collision && !InputSystem.isActionPressed(InputAction.ATTACK)) location.move(direction, stats.get(Stats.SPEED));
-
-            if (InputSystem.isActionPressed(InputAction.ATTACK) && !attackCanceled) {
-
-//                if (currentWeapon.itemToConsume != null) {
-//                    for (Item item : inventory) {
-//                        if (item.getClass() == currentWeapon.itemToConsume.getClass()) {
-//
-//                            inventory.remove(item);
-//
-//                            SoundSystem.playSound(Sounds.EFFECT_SWING_WEAPON);
-//                            ControllerSystem.doVibration(0.2f, 0.2f, 100);
-//                            attacking = true;
-//
-//                            break;
-//                        }
-//                    }
-//                } else {
-//
-//                    SoundSystem.playSound(Sounds.EFFECT_SWING_WEAPON);
-//                    ControllerSystem.doVibration(0.2f, 0.2f, 100);
-//                    attacking = true;
-//
-//                }
-
-            }
-
-            attackCanceled = false;
-        }
+        getWorld().getEventHandler().checkEvent();
     }
 
 //    private void attack() {
@@ -161,30 +104,5 @@ public class Player extends Entity {
 //        }
 //
 //    }
-
-    public void pickupObject(int index) {
-
-        if (index != 999) {
-
-            String text;
-
-            if (inventory.size() != inventorySize) {
-
-                inventory.add((Item) getWorld().getEntities().toArray(Entity[]::new)[index]);
-//                SoundSystem.playSound(Sounds.EFFECT_COIN); // TODO
-
-                text = "You picket up " + getWorld().getEntities().toArray(Entity[]::new)[index].name + "!";
-
-            } else {
-                text = "You cannot carry anymore!";
-            }
-
-            // TODO
-//            Main.gamePanel.ui.addMessage(text);
-            getWorld().getEntities().toArray(Entity[]::new)[index] = null;
-
-        }
-
-    }
 
 }

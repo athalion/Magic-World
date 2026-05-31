@@ -13,10 +13,10 @@ public enum InputAction {
     MENU_ENTER(KeyEvent.VK_ENTER, controllerState -> new InputActionState(controllerState.a, controllerState.aJustPressed)),
     MENU_BACK(KeyEvent.VK_ESCAPE, controllerState -> new InputActionState(controllerState.b, controllerState.bJustPressed)),
 
-    MOVE_UP(KeyEvent.VK_W, controllerState -> new InputActionState(controllerState.leftStickY >= 0.7f, false)),
-    MOVE_DOWN(KeyEvent.VK_S, controllerState -> new InputActionState(controllerState.leftStickY <= -0.7f, false)),
-    MOVE_LEFT(KeyEvent.VK_A, controllerState -> new InputActionState(controllerState.leftStickX <= -0.7f, false)),
-    MOVE_RIGHT(KeyEvent.VK_D, controllerState -> new InputActionState(controllerState.rightStickX >= 0.7f, false)),
+    MOVE_UP(KeyEvent.VK_W, controllerState -> new InputActionState(false, false)),
+    MOVE_DOWN(KeyEvent.VK_S, controllerState -> new InputActionState(false, false)),
+    MOVE_LEFT(KeyEvent.VK_A, controllerState -> new InputActionState(false, false)),
+    MOVE_RIGHT(KeyEvent.VK_D, controllerState -> new InputActionState(false, false)),
     ATTACK(KeyEvent.VK_ENTER, controllerState -> new InputActionState(controllerState.a, controllerState.aJustPressed)),
 
     INVENTORY(KeyEvent.VK_E, controllerState -> new InputActionState(controllerState.x, controllerState.xJustPressed)),

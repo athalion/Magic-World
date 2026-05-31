@@ -1,6 +1,5 @@
 package de.athalion.game.twodgame.entity;
 
-import de.athalion.game.twodgame.entity.stats.Stats;
 import de.athalion.game.twodgame.location.Direction;
 import de.athalion.game.twodgame.main.GameInstance;
 import de.athalion.game.twodgame.utility.CollisionChecker;
@@ -14,7 +13,7 @@ public class Projectile extends Entity {
     }
 
     public void set(Direction direction, boolean alive, Entity user) {
-        this.direction = direction;
+        this.lookingDirection = direction;
         this.alive = alive;
         this.user = user;
     }
@@ -30,8 +29,6 @@ public class Projectile extends Entity {
         } else {
 
         }
-
-        location.move(direction, stats.get(Stats.SPEED));
 
         health--;
         if (health <= 0) {

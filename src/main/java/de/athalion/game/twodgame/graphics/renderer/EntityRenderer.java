@@ -28,7 +28,7 @@ public class EntityRenderer implements Renderer {
                     || screenY - GameInstance.getInstance().getGameFrame().TILE_SIZE > GameInstance.getInstance().getGameFrame().SCREEN_HEIGHT);
         });
 
-        objects.sort(Comparator.comparingInt(value -> value.getLocation().getY()));
+        objects.sort(Comparator.comparingDouble(value -> value.getLocation().getY()));
 
         objects.forEach(locatableObject -> locatableObject.draw(
                 context,
