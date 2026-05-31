@@ -20,16 +20,11 @@ public class Main {
         } catch (IOException e) {
             Logger.error("Error loading project properties!");
             Logger.stackTrace(e.getStackTrace());
+            throw new RuntimeException(e);
         }
 
         GameInstance gameInstance = new GameInstance();
         gameInstance.init();
-
-//        Logger.log("Creating blank cursor...");
-//        Texture cursorTexture = Textures.setup(Identifier.forPath(CURSOR_PATH), false);
-//        Cursor blankCursor = gameFrame.getToolkit().createCustomCursor(cursorTexture.getFrame(), new Point(), "blank");
-//        gameFrame.setCursor(blankCursor);
-
         gameInstance.startGameThread();
     }
 

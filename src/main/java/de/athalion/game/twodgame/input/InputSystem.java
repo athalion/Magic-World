@@ -3,6 +3,7 @@ package de.athalion.game.twodgame.input;
 import com.studiohartman.jamepad.ControllerState;
 import de.athalion.game.twodgame.input.controller.ControllerSystem;
 import de.athalion.game.twodgame.main.GameInstance;
+import de.athalion.game.twodgame.math.Vector;
 import de.athalion.game.twodgame.save.Settings;
 
 import java.awt.event.KeyEvent;
@@ -71,6 +72,17 @@ public class InputSystem {
 
     public static Queue<KeyEvent> getInputQueue() {
         return inputQueue;
+    }
+
+    public static Vector getVector(InputAction up, InputAction down, InputAction left, InputAction right) {
+        Vector vector = new Vector(0, 0);
+
+        if (isActionPressed(up)) vector.add(1, 0);
+        if (isActionPressed(down)) vector.add(-1, 0);
+        if (isActionPressed(left)) vector.add(0, -1);
+        if (isActionPressed(right)) vector.add(0, 1);
+
+        return vector.add(ControllerSystem.getVector()).normalize();
     }
 
     public static void quit() {

@@ -24,6 +24,10 @@ public class Texture {
         return images[frame];
     }
 
+    public BufferedImage getFrame(int frame) {
+        return images[frame];
+    }
+
     public int getFrameNumber() {
         return frame;
     }

@@ -29,6 +29,10 @@ public class DrawContext {
         g2.drawImage(texture.getFrame(), x, y, width, height, null);
     }
 
+    public void drawImage(@NotNull Image image, int x, int y) {
+        g2.drawImage(image, x, y, null);
+    }
+
     public void fillRect(int x, int y, int width, int height) {
         g2.fillRect(x, y, width, height);
     }
