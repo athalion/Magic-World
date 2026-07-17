@@ -29,6 +29,8 @@ Core systems
   - [ ] Bosses
 - [ ] Item system
   - [ ] Inventory
+  - [ ] Usable Items
+  - [ ] Comsumables
 - [ ] Combat
   - [ ] Attack
   - [ ] Damage
