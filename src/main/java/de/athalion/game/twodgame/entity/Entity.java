@@ -10,7 +10,10 @@ import de.athalion.game.twodgame.main.GameInstance;
 import de.athalion.game.twodgame.math.Rectangle;
 import de.athalion.game.twodgame.math.Vector;
 import de.athalion.game.twodgame.resources.texture.TextureStackPointer;
+import de.athalion.game.twodgame.utility.CollisionChecker;
 import de.athalion.game.twodgame.world.WorldInstance;
+
+import java.util.List;
 
 public abstract class Entity extends LocatableObject {
 
@@ -71,7 +74,21 @@ public abstract class Entity extends LocatableObject {
     }
 
     void move() {
-        this.location.move(velocity);
+        Vector velocityX = new Vector(velocity.getX(), 0);
+        Vector velocityY = new Vector(0, velocity.getY());
+
+        boolean tileCollisionX = CollisionChecker.checkTile(this, velocityX);
+        boolean tileCollisionY = CollisionChecker.checkTile(this, velocityY);
+
+        List<Entity> entityCollisionX = CollisionChecker.checkEntities(this, velocityX, getWorld().getEntities());
+        List<Entity> entityCollisionY = CollisionChecker.checkEntities(this, velocityY, getWorld().getEntities());
+
+        Vector finalVelocity = new Vector(0, 0);
+
+        if (!tileCollisionX && entityCollisionX.isEmpty()) finalVelocity.add(velocityX);
+        if (!tileCollisionY && entityCollisionY.isEmpty()) finalVelocity.add(velocityY);
+
+        this.location.move(finalVelocity);
     }
 
     public TextureStackPointer getTextureStackPointer() {
@@ -88,7 +105,8 @@ public abstract class Entity extends LocatableObject {
 
     /**
      * Retrieves the entities' hitbox with its current position added.
-     * This rectangle represents the area where the entity is currently located.
+     * This rectangle represents the area occupied by the entity.
+     *
      * @return The hitbox at the entities' location
      */
     public Rectangle getHitbox() {

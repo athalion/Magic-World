@@ -25,9 +25,10 @@ public class Rectangle {
      * Moves the rectangle by the given offset.
      *
      * @param vector The offset to move the rectangle.
+     * @return The rectangle.
      */
-    public void move(Vector vector) {
-        move(vector.x, vector.y);
+    public Rectangle move(Vector vector) {
+        return move(vector.x, vector.y);
     }
 
     /**
@@ -35,10 +36,12 @@ public class Rectangle {
      *
      * @param x The x offset to move the rectangle.
      * @param y The y offset to move the rectangle.
+     * @return The rectangle.
      */
-    public void move(double x, double y) {
+    public Rectangle move(double x, double y) {
         this.x += x;
         this.y += y;
+        return this;
     }
 
     /**

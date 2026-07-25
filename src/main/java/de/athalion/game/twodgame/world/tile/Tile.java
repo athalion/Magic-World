@@ -20,4 +20,8 @@ public class Tile {
         texture.nextFrame();
     }
 
+    public boolean hasCollision() {
+        return collision;
+    }
+
 }

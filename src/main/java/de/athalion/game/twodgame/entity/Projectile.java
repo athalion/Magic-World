@@ -1,8 +1,6 @@
 package de.athalion.game.twodgame.entity;
 
 import de.athalion.game.twodgame.location.Direction;
-import de.athalion.game.twodgame.main.GameInstance;
-import de.athalion.game.twodgame.utility.CollisionChecker;
 
 public class Projectile extends Entity {
 
@@ -19,16 +17,6 @@ public class Projectile extends Entity {
     }
 
     public void update() {
-
-        if (user == GameInstance.getInstance().getPlayer()) {
-            Entity monster = CollisionChecker.checkEntities(this, getWorld().getEntities());
-            if (monster != null) {
-                monster.damage(DamageType.NORMAL, 1);
-                alive = false;
-            }
-        } else {
-
-        }
 
         health--;
         if (health <= 0) {
